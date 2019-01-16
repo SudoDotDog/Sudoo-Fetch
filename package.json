@@ -1,0 +1,48 @@
+{
+  "name": "@sudoo/fetch",
+  "version": "1.0.0",
+  "description": ":cloud: Request for browser",
+  "main": "dist/index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SudoDotDog/Sudoo-Fetch.git"
+  },
+  "keywords": [
+    "sudoo"
+  ],
+  "author": "WMXPY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SudoDotDog/Sudoo-Fetch/issues"
+  },
+  "homepage": "https://github.com/SudoDotDog/Sudoo-Fetch#readme",
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "script/**/*.ts",
+      "src/**/*.ts"
+    ],
+    "instrument": true,
+    "reporter": [
+      "json",
+      "text-summary"
+    ],
+    "report-dir": "coverage",
+    "require": [
+      "./test/tshook.js"
+    ],
+    "sourceMap": true
+  },
+  "devDependencies": {
+    "@sudoo/triforce": "^1.1.0"
+  }
+}
