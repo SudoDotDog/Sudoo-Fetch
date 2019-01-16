@@ -3,6 +3,7 @@
         "Sudoo",
         "clazz",
         "codecov",
+        "triforce",
         "tshook"
     ],
     "tslint.configFile": "typescript/tslint.json",
