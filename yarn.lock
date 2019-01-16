@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@sudoo/mock@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@sudoo/mock/-/mock-1.0.0.tgz#333c2df6b8a8e27b062a799e767772ca53a39e05"
+  integrity sha512-jPoJrsI/3UchQpeBGYj6ds4Hmnwzy+b3NKBTMjlyC3rPlx74y4HHm2ussmydDaJAxLm6iG/1EKRR0Kqdb90YYw==
+
 "@sudoo/triforce@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@sudoo/triforce/-/triforce-1.1.0.tgz#955011d7e4b87490babc2f7c3f4938a94e183eb1"
