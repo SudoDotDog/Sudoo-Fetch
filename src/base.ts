@@ -14,15 +14,17 @@ export class FetchBase {
     protected readonly _fetch: FetchFunction;
 
     protected _mode: RequestMode;
-    protected _body: string;
+    protected _body: string | undefined;
     protected _headers: Record<string, string>;
 
-    protected constructor(url: string, method: METHOD, fetch: FetchFunction) {
+    protected constructor(url: string, method: METHOD, fetchFunction: FetchFunction = fetch) {
 
         this._url = url;
         this._method = method;
-        this._fetch = fetch;
+        this._fetch = fetchFunction;
 
+        this._body = undefined;
+        this._headers = {};
         this._mode = "cors";
     }
 

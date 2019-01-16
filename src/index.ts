@@ -27,8 +27,8 @@ export class Fetch {
         this._method = method;
     }
 
-    public json(url: string, fetch?: FetchFunction): FetchBase {
+    public json(url: string, fetchFunction?: FetchFunction): FetchBase {
 
-        return new FetchJson(url, this._method, fetch);
+        return new FetchJson(url, this._method, fetchFunction);
     }
 }
