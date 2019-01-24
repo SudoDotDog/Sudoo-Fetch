@@ -19,14 +19,33 @@ export class Fetch {
         return new Fetch(METHOD.POST);
     }
 
-    private _method: METHOD;
+    public static get put() {
+
+        return new Fetch(METHOD.PUT);
+    }
+
+    public static get delete() {
+
+        return new Fetch(METHOD.DELETE);
+    }
+
+    public static get option() {
+
+        return new Fetch(METHOD.OPTION);
+    }
+
+    private readonly _method: METHOD;
 
     private constructor(method: METHOD) {
 
         this._method = method;
+
+        if (!Boolean(window)) {
+            throw new Error('[Sudoo-Fetch] This module only work with browser');
+        }
     }
 
-    public json(url: string, fetchFunction?: FetchFunction): IFetch {
+    public json(url: string, fetchFunction: FetchFunction = fetch.bind(window)): IFetch {
 
         return new FetchJson(url, this._method, fetchFunction);
     }

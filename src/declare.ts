@@ -17,8 +17,11 @@ export type FetchFunction = (input: RequestInfo, init?: RequestInit) => Promise<
 
 export interface IFetch {
 
-    setMode(mode: RequestMode): IFetch;
-    body(body: Record<string, any>): IFetch;
+    add(key: string, value: any): IFetch;
     bearer(token: string): IFetch;
+    body(body: Record<string, any>): IFetch;
     fetch<T>(): Promise<T>;
+    migrate(body: Record<string, any>): IFetch;
+    header(name: string, value: any): IFetch;
+    setMode(mode: RequestMode): IFetch;
 }

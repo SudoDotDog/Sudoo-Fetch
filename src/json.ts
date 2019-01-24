@@ -9,20 +9,17 @@ import { FetchFunction, IFetch, METHOD } from "./declare";
 
 export class FetchJson extends FetchBase implements IFetch {
 
-    public constructor(url: string, method: METHOD, fetchFunction?: FetchFunction) {
+    public constructor(url: string, method: METHOD, fetchFunction: FetchFunction) {
 
         super(url, method, fetchFunction);
 
         this._headers = {
+
+            ...this._headers,
+
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         };
-    }
-
-    public body(body: Record<string, any>): this {
-
-        this._body = JSON.stringify(body);
-        return this;
     }
 
     public async fetch<T>(): Promise<T> {
@@ -31,7 +28,7 @@ export class FetchJson extends FetchBase implements IFetch {
             method: this._method,
             headers: this._headers,
             mode: this._mode,
-            body: this._body,
+            body: JSON.stringify(this._body),
         });
 
         const data: T = await response.json();

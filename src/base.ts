@@ -14,29 +14,65 @@ export class FetchBase {
     protected readonly _fetch: FetchFunction;
 
     protected _mode: RequestMode;
-    protected _body: string | undefined;
+    protected _body: Record<string, any>;
     protected _headers: Record<string, string>;
 
-    protected constructor(url: string, method: METHOD, fetchFunction: FetchFunction = fetch) {
+    protected constructor(url: string, method: METHOD, fetchFunction: FetchFunction) {
 
         this._url = url;
         this._method = method;
         this._fetch = fetchFunction;
 
-        this._body = undefined;
+        this._body = {};
         this._headers = {};
         this._mode = "cors";
     }
 
-    public setMode(mode: RequestMode): this {
+    public add(key: string, value: string): this {
 
-        this._mode = mode;
+        this._body = {
+
+            ...this._body,
+            [key]: value,
+        };
         return this;
     }
 
     public bearer(token: string): this {
 
         this._headers.Authorization = 'bearer ' + token;
+        return this;
+    }
+
+    public body(body: Record<string, any>): this {
+
+        this._body = body;
+        return this;
+    }
+
+    public migrate(body: Record<string, any>): this {
+
+        this._body = {
+
+            ...this._body,
+            ...body,
+        };
+        return this;
+    }
+
+    public header(name: string, value: string): this {
+
+        this._headers = {
+
+            ...this._headers,
+            [name]: value,
+        };
+        return this;
+    }
+
+    public setMode(mode: RequestMode): this {
+
+        this._mode = mode;
         return this;
     }
 }
