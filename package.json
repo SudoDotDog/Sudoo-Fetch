@@ -1,6 +1,6 @@
 {
   "name": "@sudoo/fetch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": ":cloud: Request for browser",
   "main": "dist/index.js",
   "directories": {
@@ -44,6 +44,6 @@
   },
   "devDependencies": {
     "@sudoo/mock": "^1.0.0",
-    "@sudoo/triforce": "^1.1.0"
+    "@sudoo/triforce": "^1.2.0"
   }
 }

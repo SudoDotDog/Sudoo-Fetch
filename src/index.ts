@@ -4,8 +4,7 @@
  * @description Index
  */
 
-import { FetchBase } from "./base";
-import { FetchFunction, METHOD } from "./declare";
+import { FetchFunction, IFetch, METHOD } from "./declare";
 import { FetchJson } from "./json";
 
 export class Fetch {
@@ -27,7 +26,7 @@ export class Fetch {
         this._method = method;
     }
 
-    public json(url: string, fetchFunction?: FetchFunction): FetchBase {
+    public json(url: string, fetchFunction?: FetchFunction): IFetch {
 
         return new FetchJson(url, this._method, fetchFunction);
     }
