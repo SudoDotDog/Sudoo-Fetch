@@ -28,7 +28,7 @@ export class FetchJson extends FetchBase implements IFetch {
             method: this._method,
             headers: this._headers,
             mode: this._mode,
-            body: JSON.stringify(this._body),
+            body: this._body ? JSON.stringify(this._body) : undefined,
         });
 
         const data: T = await response.json();
