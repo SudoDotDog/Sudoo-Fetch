@@ -43,7 +43,7 @@
     "sourceMap": true
   },
   "devDependencies": {
-    "@sudoo/mock": "^1.0.0",
-    "@sudoo/triforce": "^1.2.0"
+    "@sudoo/mock": "^1.2.0",
+    "@sudoo/triforce": "^1.6.0"
   }
 }
