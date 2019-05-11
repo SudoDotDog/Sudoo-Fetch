@@ -30,6 +30,10 @@ export class FetchBase {
 
     public add(key: string, value: string): this {
 
+        if (this._method === METHOD.GET) {
+            throw new Error('Request with GET/HEAD method cannot have body.');
+        }
+
         this._body = {
 
             ...this._body,
@@ -45,6 +49,10 @@ export class FetchBase {
     }
 
     public body(body: Record<string, any>): this {
+
+        if (this._method === METHOD.GET) {
+            throw new Error('Request with GET/HEAD method cannot have body.');
+        }
 
         this._body = body;
         return this;
@@ -74,5 +82,14 @@ export class FetchBase {
 
         this._mode = mode;
         return this;
+    }
+
+    public getBody(): Record<string, any> | undefined {
+
+        if (this._method === METHOD.GET) {
+            return undefined;
+        }
+
+        return this._body;
     }
 }

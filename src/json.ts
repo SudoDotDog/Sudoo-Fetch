@@ -24,11 +24,13 @@ export class FetchJson extends FetchBase implements IFetch {
 
     public async fetch<T>(): Promise<T> {
 
+        const body: Record<string, any> | undefined = this.getBody();
+
         const response: Response = await this._fetch(this._url, {
             method: this._method,
             headers: this._headers,
             mode: this._mode,
-            body: this._body ? JSON.stringify(this._body) : undefined,
+            body: body ? JSON.stringify(body) : undefined,
         });
 
         const data: T = await response.json();
