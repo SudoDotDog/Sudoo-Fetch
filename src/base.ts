@@ -42,6 +42,12 @@ export class FetchBase {
         return this;
     }
 
+    public basic(token: string): this {
+
+        this._headers.Authorization = 'basic ' + token;
+        return this;
+    }
+
     public bearer(token: string): this {
 
         this._headers.Authorization = 'bearer ' + token;
