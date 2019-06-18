@@ -18,6 +18,7 @@ export type FetchFunction = (input: RequestInfo, init?: RequestInit) => Promise<
 export interface IFetch {
 
     add(key: string, value: any): IFetch;
+    combine(body: Record<string, any>): IFetch;
     bearer(token: string): IFetch;
     body(body: Record<string, any>): IFetch;
     fetch<T>(): Promise<T>;

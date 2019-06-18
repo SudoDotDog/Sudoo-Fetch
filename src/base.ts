@@ -42,6 +42,16 @@ export class FetchBase {
         return this;
     }
 
+    public combine(body: Record<string, any>): this {
+
+        const keys: string[] = Object.keys(body);
+
+        for (const key of keys) {
+            this.add(key, body[key]);
+        }
+        return this;
+    }
+
     public basic(token: string): this {
 
         this._headers.Authorization = 'basic ' + token;
