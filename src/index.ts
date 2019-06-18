@@ -5,6 +5,7 @@
  */
 
 import { FetchFunction, IFetch, METHOD } from "./declare";
+import { FetchFromData } from "./form-data";
 import { FetchJson } from "./json";
 
 export class Fetch {
@@ -48,5 +49,10 @@ export class Fetch {
     public json(url: string, fetchFunction: FetchFunction = fetch.bind(window)): IFetch {
 
         return new FetchJson(url, this._method, fetchFunction);
+    }
+
+    public formData(url: string, fetchFunction: FetchFunction = fetch.bind(window)): IFetch {
+
+        return new FetchFromData(url, this._method, fetchFunction);
     }
 }
