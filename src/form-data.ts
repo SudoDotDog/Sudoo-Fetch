@@ -18,7 +18,6 @@ export class FetchFromData extends FetchBase implements IFetch {
             ...this._headers,
 
             'Accept': 'application/json',
-            'Content-Type': 'multipart/form-data',
         };
     }
 
