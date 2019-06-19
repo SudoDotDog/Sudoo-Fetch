@@ -13,19 +13,23 @@ export class FetchBase {
 
     protected readonly _fetch: FetchFunction;
 
-    protected _mode: RequestMode;
-    protected _body: Record<string, any>;
-    protected _headers: Record<string, string>;
+    protected _mode: RequestMode = "cors";
+    protected _body: Record<string, any> = {};
+    protected _headers: Record<string, string> = {};
+    protected readonly _globalHeaders: Record<string, string>;
 
-    protected constructor(url: string, method: METHOD, fetchFunction: FetchFunction) {
+    protected constructor(
+        url: string,
+        method: METHOD,
+        fetchFunction: FetchFunction,
+        globalHeaders: Record<string, string>,
+    ) {
 
         this._url = url;
         this._method = method;
         this._fetch = fetchFunction;
 
-        this._body = {};
-        this._headers = {};
-        this._mode = "cors";
+        this._globalHeaders = globalHeaders;
     }
 
     public add(key: string, value: string): this {
@@ -90,6 +94,16 @@ export class FetchBase {
 
             ...this._headers,
             [name]: value,
+        };
+        return this;
+    }
+
+    public xHeader(name: string, value: string): this {
+
+        this._headers = {
+
+            ...this._headers,
+            ['x-' + name]: value,
         };
         return this;
     }

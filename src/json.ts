@@ -9,9 +9,14 @@ import { FetchFunction, IFetch, METHOD } from "./declare";
 
 export class FetchJson extends FetchBase implements IFetch {
 
-    public constructor(url: string, method: METHOD, fetchFunction: FetchFunction) {
+    public constructor(
+        url: string,
+        method: METHOD,
+        fetchFunction: FetchFunction,
+        globalHeaders: Record<string, string>,
+    ) {
 
-        super(url, method, fetchFunction);
+        super(url, method, fetchFunction, globalHeaders);
 
         this._headers = {
 

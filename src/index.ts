@@ -35,6 +35,33 @@ export class Fetch {
         return new Fetch(METHOD.OPTION);
     }
 
+    public static get globalHeaders(): Record<string, string> {
+
+        return this._globalHeaders;
+    }
+
+    public static setGlobalHeader(name: string, value: string): typeof Fetch {
+
+        this._globalHeaders = {
+
+            ...this._globalHeaders,
+            [name]: value,
+        };
+        return Fetch;
+    }
+
+    public static setGlobalXHeader(name: string, value: string): typeof Fetch {
+
+        this._globalHeaders = {
+
+            ...this._globalHeaders,
+            ['x-' + name]: value,
+        };
+        return Fetch;
+    }
+
+    private static _globalHeaders: Record<string, string> = {};
+
     private readonly _method: METHOD;
 
     private constructor(method: METHOD) {
@@ -48,11 +75,11 @@ export class Fetch {
 
     public json(url: string, fetchFunction: FetchFunction = fetch.bind(window)): IFetch {
 
-        return new FetchJson(url, this._method, fetchFunction);
+        return new FetchJson(url, this._method, fetchFunction, Fetch.globalHeaders);
     }
 
     public formData(url: string, fetchFunction: FetchFunction = fetch.bind(window)): IFetch {
 
-        return new FetchFromData(url, this._method, fetchFunction);
+        return new FetchFromData(url, this._method, fetchFunction, Fetch.globalHeaders);
     }
 }
