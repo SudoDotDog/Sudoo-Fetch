@@ -8,6 +8,7 @@ export * from "./base";
 export * from "./declare";
 export * from "./fetch";
 export * from "./form-data";
+export * from "./global";
 export * from "./json";
 export * from "./util";
 
