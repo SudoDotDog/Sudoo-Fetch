@@ -5,6 +5,7 @@
  */
 
 import { FetchFunction, METHOD } from "./declare";
+import { parseXHeader } from "./util";
 
 export class FetchBase {
 
@@ -103,7 +104,7 @@ export class FetchBase {
         this._headers = {
 
             ...this._headers,
-            ['x-' + name]: value,
+            [parseXHeader(name)]: value,
         };
         return this;
     }

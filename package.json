@@ -1,6 +1,6 @@
 {
   "name": "@sudoo/fetch",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": ":cloud: Request for browser",
   "main": "dist/index.js",
   "directories": {
@@ -23,6 +23,10 @@
     "url": "https://github.com/SudoDotDog/Sudoo-Fetch/issues"
   },
   "homepage": "https://github.com/SudoDotDog/Sudoo-Fetch#readme",
+  "devDependencies": {
+    "@sudoo/mock": "^1.2.0",
+    "@sudoo/triforce": "^1.6.0"
+  },
   "nyc": {
     "extension": [
       ".ts"
@@ -41,9 +45,5 @@
       "./test/tshook.js"
     ],
     "sourceMap": true
-  },
-  "devDependencies": {
-    "@sudoo/mock": "^1.2.0",
-    "@sudoo/triforce": "^1.6.0"
   }
 }
