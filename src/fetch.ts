@@ -6,6 +6,7 @@
 
 import { FetchFunction, IFetch, METHOD } from "./declare";
 import { FetchFromData } from "./form-data";
+import { GlobalHeaderManager } from "./global";
 import { FetchJson } from "./json";
 import { parseXHeader } from "./util";
 
@@ -38,74 +39,50 @@ export class Fetch {
 
     public static get globalHeaders(): Record<string, string> {
 
-        return this._globalHeaders;
+        return GlobalHeaderManager.instance.headers;
     }
 
     public static setGlobalHeader(name: string, value: string): typeof Fetch {
 
-        this._globalHeaders = {
-
-            ...this._globalHeaders,
-            [name]: value,
-        };
+        GlobalHeaderManager.instance.add(name, value);
         return Fetch;
     }
 
     public static setGlobalXHeader(name: string, value: string): typeof Fetch {
 
-        this._globalHeaders = {
-
-            ...this._globalHeaders,
-            [parseXHeader(name)]: value,
-        };
+        GlobalHeaderManager.instance.add(parseXHeader(name), value);
         return Fetch;
     }
 
     public static getGlobalHeader(name: string): string | null {
 
-        if (this._globalHeaders[name]) {
-
-            return this._globalHeaders[name];
-        }
-        return null;
+        return GlobalHeaderManager.instance.get(name);
     }
 
     public static getGlobalXHeader(name: string): string | null {
 
         const header: string = parseXHeader(name);
-        if (this._globalHeaders[header]) {
-
-            return this._globalHeaders[header];
-        }
-        return null;
+        return GlobalHeaderManager.instance.get(header);
     }
 
     public static removeGlobalHeader(name: string): typeof Fetch {
 
-        if (this._globalHeaders[name]) {
-
-            this._globalHeaders[name] = undefined as any;
-        }
+        GlobalHeaderManager.instance.remove(name);
         return this;
     }
 
     public static removeGlobalXHeader(name: string): typeof Fetch {
 
         const header: string = parseXHeader(name);
-        if (this._globalHeaders[header]) {
-
-            this._globalHeaders[header] = undefined as any;
-        }
+        GlobalHeaderManager.instance.remove(header);
         return this;
     }
 
     public static removeAllGlobalHeaders(): typeof Fetch {
 
-        this._globalHeaders = {};
+        GlobalHeaderManager.instance.removeAll();
         return this;
     }
-
-    private static _globalHeaders: Record<string, string> = {};
 
     private readonly _method: METHOD;
 
@@ -113,8 +90,10 @@ export class Fetch {
 
         this._method = method;
 
-        if (!Boolean(window)) {
-            throw new Error('[Sudoo-Fetch] This module only work with browser');
+        if (process.env.NODE_ENV !== 'test') {
+            if (!Boolean(window)) {
+                throw new Error('[Sudoo-Fetch] This module only work with browser');
+            }
         }
     }
 

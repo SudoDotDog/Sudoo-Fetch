@@ -5,6 +5,7 @@
  */
 
 import { FetchFunction, METHOD } from "./declare";
+import { GlobalHeaderManager } from "./global";
 import { parseXHeader } from "./util";
 
 export class FetchBase {
@@ -31,6 +32,14 @@ export class FetchBase {
         this._fetch = fetchFunction;
 
         this._globalHeaders = globalHeaders;
+    }
+
+    public mergeHeaders(): Record<string, string> {
+
+        return {
+            ...this._headers,
+            ...GlobalHeaderManager.instance.headers,
+        };
     }
 
     public add(key: string, value: string): this {

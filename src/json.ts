@@ -33,7 +33,7 @@ export class FetchJson extends FetchBase implements IFetch {
 
         const response: Response = await this._fetch(this._url, {
             method: this._method,
-            headers: this._headers,
+            headers: this.mergeHeaders(),
             mode: this._mode,
             body: body ? JSON.stringify(body) : undefined,
         });

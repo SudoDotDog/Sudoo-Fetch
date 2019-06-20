@@ -4,6 +4,12 @@
  * @description Declare
  */
 
+export type HeaderPair = {
+
+    readonly key: string;
+    readonly value: string;
+};
+
 export enum METHOD {
 
     GET = "GET",
