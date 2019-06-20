@@ -80,6 +80,31 @@ export class Fetch {
         return null;
     }
 
+    public static removeGlobalHeader(name: string): typeof Fetch {
+
+        if (this._globalHeaders[name]) {
+
+            this._globalHeaders[name] = undefined as any;
+        }
+        return this;
+    }
+
+    public static removeGlobalXHeader(name: string): typeof Fetch {
+
+        const header: string = parseXHeader(name);
+        if (this._globalHeaders[header]) {
+
+            this._globalHeaders[header] = undefined as any;
+        }
+        return this;
+    }
+
+    public static removeAllGlobalHeaders(): typeof Fetch {
+
+        this._globalHeaders = {};
+        return this;
+    }
+
     private static _globalHeaders: Record<string, string> = {};
 
     private readonly _method: METHOD;
