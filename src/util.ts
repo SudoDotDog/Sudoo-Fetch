@@ -6,5 +6,5 @@
 
 export const parseXHeader = (name: string): string => {
 
-    return 'X-' + name;
+    return 'x-' + name.toLowerCase();
 };

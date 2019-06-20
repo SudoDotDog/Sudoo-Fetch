@@ -1,6 +1,6 @@
 {
   "name": "@sudoo/fetch",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": ":cloud: Request for browser",
   "main": "dist/index.js",
   "directories": {
