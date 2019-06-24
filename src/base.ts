@@ -124,6 +124,18 @@ export class FetchBase {
         return this;
     }
 
+    public debug(logFunction: (...elements: any[]) => void = console.log): this {
+
+        logFunction({
+            Url: this._url,
+            Method: this._method,
+            Mode: this._mode,
+            Header: this._headers,
+            Body: this._body,
+        });
+        return this;
+    }
+
     public getBody(): Record<string, any> | undefined {
 
         if (this._method === METHOD.GET) {
