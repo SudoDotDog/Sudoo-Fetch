@@ -31,4 +31,5 @@ export interface IFetch {
     migrate(body: Record<string, any>): IFetch;
     header(name: string, value: any): IFetch;
     setMode(mode: RequestMode): IFetch;
+    debug(logFunction?: (...elements: any[]) => void): IFetch;
 }
