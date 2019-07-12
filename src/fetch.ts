@@ -8,6 +8,7 @@ import { FetchFunction, IFetch, METHOD } from "./declare";
 import { FetchFromData } from "./form-data";
 import { GlobalHeaderManager } from "./global";
 import { FetchJson } from "./json";
+import { FetchSimple } from "./simple";
 import { parseXHeader } from "./util";
 
 export class Fetch {
@@ -100,6 +101,11 @@ export class Fetch {
     public json(url: string, fetchFunction: FetchFunction = fetch.bind(window)): IFetch {
 
         return new FetchJson(url, this._method, fetchFunction, Fetch.globalHeaders);
+    }
+
+    public simple(url: string, fetchFunction: FetchFunction = fetch.bind(window)): IFetch {
+
+        return new FetchSimple(url, this._method, fetchFunction, Fetch.globalHeaders);
     }
 
     public formData(url: string, fetchFunction: FetchFunction = fetch.bind(window)): IFetch {
