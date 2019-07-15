@@ -8,6 +8,8 @@ import { FetchFunction, METHOD } from "./declare";
 import { GlobalHeaderManager } from "./global";
 import { parseXHeader } from "./util";
 
+export type LogFunction = (...elements: any[]) => any;
+
 export class FetchBase {
 
     protected readonly _url: string;
@@ -19,6 +21,10 @@ export class FetchBase {
     protected _body: Record<string, any> = {};
     protected _headers: Record<string, string> = {};
     protected readonly _globalHeaders: Record<string, string>;
+
+    protected _debug: boolean = false;
+    protected _environment: string | null = null;
+    protected _logFunction: LogFunction | null = null;
 
     protected constructor(
         url: string,
@@ -124,15 +130,15 @@ export class FetchBase {
         return this;
     }
 
-    public debug(logFunction: (...elements: any[]) => void = console.log): this {
+    public debug(
+        environment: string = process.env.NODE_ENV,
+        logFunction: (...elements: any[]) => void = console.log,
+    ): this {
 
-        logFunction({
-            Url: this._url,
-            Method: this._method,
-            Mode: this._mode,
-            Header: this._headers,
-            Body: this._body,
-        });
+        this._debug = true;
+        this._environment = environment;
+        this._logFunction = logFunction;
+
         return this;
     }
 
@@ -143,5 +149,37 @@ export class FetchBase {
         }
 
         return this._body;
+    }
+
+    protected logRequestMessage(): void {
+
+        if (
+            this._debug
+            && this._environment === 'development'
+            && this._logFunction
+            && typeof this._logFunction === 'function'
+        ) {
+
+            this._logFunction('FETCH-DEBUG-REQUEST', {
+                Url: this._url,
+                Method: this._method,
+                Mode: this._mode,
+                Header: this._headers,
+                Body: this._body,
+            });
+        }
+    }
+
+    protected logResponseMessage(...elements: any[]): void {
+
+        if (
+            this._debug
+            && this._environment === 'development'
+            && this._logFunction
+            && typeof this._logFunction === 'function'
+        ) {
+
+            this._logFunction('FETCH-DEBUG-RESPONSE', ...elements);
+        }
     }
 }

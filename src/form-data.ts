@@ -48,6 +48,8 @@ export class FetchFromData extends FetchBase implements IFetch {
         const data: T = await response.json();
 
         if (response.ok) {
+
+            this.logResponseMessage(data);
             return data;
         }
 

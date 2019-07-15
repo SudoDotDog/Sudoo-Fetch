@@ -39,7 +39,11 @@ export class FetchSimple extends FetchBase implements IFetch {
         const data: string = await response.text();
 
         if (response.ok) {
-            return JSON.parse(data) as T;
+
+            const parsed: T = JSON.parse(data) as T;
+
+            this.logResponseMessage(parsed);
+            return parsed;
         }
 
         throw new Error(data);
