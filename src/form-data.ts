@@ -28,6 +28,7 @@ export class FetchFromData extends FetchBase implements IFetch {
 
     public async fetch<T>(): Promise<T> {
 
+        this.logRequestMessage();
         const body: Record<string, any> | undefined = this.getBody();
 
         const formData: FormData = new FormData();

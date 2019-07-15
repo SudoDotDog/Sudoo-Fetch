@@ -26,6 +26,7 @@ export class FetchSimple extends FetchBase implements IFetch {
 
     public async fetch<T>(): Promise<T> {
 
+        this.logRequestMessage();
         const body: Record<string, any> | undefined = this.getBody();
 
         const response: Response = await this._fetch(this._url, {
