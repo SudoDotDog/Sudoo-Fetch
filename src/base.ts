@@ -131,7 +131,7 @@ export class FetchBase {
     }
 
     public debug(
-        environment: string = process.env.NODE_ENV,
+        environment: string = (process as any).env.NODE_ENV,
         logFunction: (...elements: any[]) => void = console.log,
     ): this {
 
