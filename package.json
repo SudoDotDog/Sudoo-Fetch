@@ -1,14 +1,10 @@
 {
   "name": "@sudoo/fetch",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": ":cloud: Request for browser",
   "main": "dist/index.js",
   "directories": {
-    "doc": "docs",
-    "test": "test"
-  },
-  "scripts": {
-    "test": "mocha"
+    "doc": "docs"
   },
   "repository": {
     "type": "git",
