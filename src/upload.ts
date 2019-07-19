@@ -1,13 +1,13 @@
 /**
  * @author WMXPY
  * @namespace Fetch
- * @description Form Data
+ * @description Upload
  */
 
 import { FetchBase } from "./base";
 import { FetchFunction, IFetch, METHOD } from "./declare";
 
-export class FetchFromData extends FetchBase implements IFetch {
+export class FetchUpload extends FetchBase implements IFetch {
 
     public constructor(
         url: string,
@@ -21,6 +21,7 @@ export class FetchFromData extends FetchBase implements IFetch {
         this._headers = {
 
             ...this._headers,
+            'Accept': 'application/json',
         };
     }
 
