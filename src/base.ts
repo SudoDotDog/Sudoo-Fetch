@@ -22,7 +22,8 @@ export class FetchBase {
     protected _headers: Record<string, string> = {};
     protected readonly _globalHeaders: Record<string, string>;
 
-    protected _debug: boolean = false;
+    protected _debugRequest: boolean = false;
+    protected _debugResponse: boolean = false;
     protected _environment: string | null = null;
     protected _logFunction: LogFunction | null = null;
 
@@ -135,10 +136,47 @@ export class FetchBase {
         logFunction: (...elements: any[]) => void = console.log,
     ): this {
 
-        this._debug = true;
+        this._debugRequest = true;
+        this._debugResponse = true;
         this._environment = environment;
         this._logFunction = logFunction;
 
+        return this;
+    }
+
+    public debugRequest(
+        environment: string = (process as any).env.NODE_ENV,
+        logFunction: (...elements: any[]) => void = console.log,
+    ): this {
+
+        this._debugRequest = true;
+        this._environment = environment;
+        this._logFunction = logFunction;
+
+        return this;
+    }
+
+    public debugResponse(
+        environment: string = (process as any).env.NODE_ENV,
+        logFunction: (...elements: any[]) => void = console.log,
+    ): this {
+
+        this._debugResponse = true;
+        this._environment = environment;
+        this._logFunction = logFunction;
+
+        return this;
+    }
+
+    public setEnvironment(environment: string): this {
+
+        this._environment = environment;
+        return this;
+    }
+
+    public setLogFunction(logFunction: (...elements: any[]) => void): this {
+
+        this._logFunction = logFunction;
         return this;
     }
 
@@ -154,7 +192,7 @@ export class FetchBase {
     protected logRequestMessage(): void {
 
         if (
-            this._debug
+            this._debugRequest
             && this._environment === 'development'
             && this._logFunction
             && typeof this._logFunction === 'function'
@@ -173,7 +211,7 @@ export class FetchBase {
     protected logResponseMessage(...elements: any[]): void {
 
         if (
-            this._debug
+            this._debugResponse
             && this._environment === 'development'
             && this._logFunction
             && typeof this._logFunction === 'function'
