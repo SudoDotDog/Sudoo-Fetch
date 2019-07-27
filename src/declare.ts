@@ -32,4 +32,8 @@ export interface IFetch {
     header(name: string, value: any): IFetch;
     setMode(mode: RequestMode): IFetch;
     debug(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
+    debugRequest(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
+    debugResponse(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
+    setEnvironment(environment: string): IFetch;
+    setLogFunction(logFunction: (...elements: any[]) => void): IFetch;
 }
