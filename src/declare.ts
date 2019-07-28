@@ -35,5 +35,7 @@ export interface IFetch {
     debugRequest(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
     debugResponse(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
     setEnvironment(environment: string): IFetch;
+    enableFallback(): IFetch;
+    disableFallback(): IFetch;
     setLogFunction(logFunction: (...elements: any[]) => void): IFetch;
 }

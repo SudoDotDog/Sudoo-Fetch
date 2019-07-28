@@ -9,7 +9,7 @@ import { expect } from "chai";
 import * as Chance from "chance";
 import { Fetch } from "../../src/fetch";
 
-describe.only('Given a (Header) scenario', (): void => {
+describe('Given a (Header) scenario', (): void => {
 
     const chance: Chance.Chance = new Chance('fetch-header');
 
@@ -19,7 +19,7 @@ describe.only('Given a (Header) scenario', (): void => {
 
     it('should be able to fetch', async (): Promise<void> => {
 
-        const url: string = chance.string();
+        const url: string = JSON.stringify(chance.string());
         const result: any = {};
 
         const mock = (input: RequestInfo, init?: RequestInit) => {
@@ -29,6 +29,7 @@ describe.only('Given a (Header) scenario', (): void => {
             return Promise.resolve({
                 ok: true,
                 json: () => Promise.resolve(url),
+                text: () => Promise.resolve(url),
             } as any);
         };
 
@@ -36,7 +37,7 @@ describe.only('Given a (Header) scenario', (): void => {
 
         const res = await clazz.fetch();
 
-        expect(res).to.be.equal(url);
+        expect(res).to.be.equal(JSON.parse(url));
         expect(result).to.be.deep.equal({
             init: {
                 body: undefined,
@@ -53,7 +54,7 @@ describe.only('Given a (Header) scenario', (): void => {
 
     it('should be able to set global header', async (): Promise<void> => {
 
-        const url: string = chance.string();
+        const url: string = JSON.stringify(chance.string());
         const result: any = {};
 
         const mock = (input: RequestInfo, init?: RequestInit) => {
@@ -63,6 +64,7 @@ describe.only('Given a (Header) scenario', (): void => {
             return Promise.resolve({
                 ok: true,
                 json: () => Promise.resolve(url),
+                text: () => Promise.resolve(url),
             } as any);
         };
 
@@ -71,7 +73,7 @@ describe.only('Given a (Header) scenario', (): void => {
 
         const res = await clazz.fetch();
 
-        expect(res).to.be.equal(url);
+        expect(res).to.be.equal(JSON.parse(url));
         expect(result).to.be.deep.equal({
             init: {
                 body: undefined,
