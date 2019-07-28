@@ -45,7 +45,8 @@ export class FetchFromData extends FetchBase implements IFetch {
             body: formData,
         });
 
-        const data: T = await response.json();
+        const raw: string = await response.text();
+        const data: T = this._getData(raw);
 
         if (response.ok) {
 
@@ -53,6 +54,16 @@ export class FetchFromData extends FetchBase implements IFetch {
             return data;
         }
 
-        throw new Error(data as any as string);
+        throw new Error(raw);
+    }
+
+    private _getData<T>(text: string): T {
+
+        try {
+            const parsed: T = JSON.parse(text);
+            return parsed;
+        } catch (err) {
+            return text as any as T;
+        }
     }
 }
