@@ -27,6 +27,8 @@ export class FetchBase {
     protected _environment: string | null = null;
     protected _logFunction: LogFunction | null = null;
 
+    protected _fallback: boolean = false;
+
     protected constructor(
         url: string,
         method: METHOD,
@@ -177,6 +179,18 @@ export class FetchBase {
     public setLogFunction(logFunction: (...elements: any[]) => void): this {
 
         this._logFunction = logFunction;
+        return this;
+    }
+
+    public enableFallback(): this {
+
+        this._fallback = true;
+        return this;
+    }
+
+    public disableFallback(): this {
+
+        this._fallback = false;
         return this;
     }
 

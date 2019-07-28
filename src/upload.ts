@@ -6,6 +6,7 @@
 
 import { FetchBase } from "./base";
 import { FetchFunction, IFetch, METHOD } from "./declare";
+import { parseJson } from "./util";
 
 export class FetchUpload extends FetchBase implements IFetch {
 
@@ -46,7 +47,8 @@ export class FetchUpload extends FetchBase implements IFetch {
             body: formData,
         });
 
-        const data: T = await response.json();
+        const raw: string = await response.text();
+        const data: T = parseJson(raw, this._fallback);
 
         if (response.ok) {
 
@@ -54,6 +56,6 @@ export class FetchUpload extends FetchBase implements IFetch {
             return data;
         }
 
-        throw new Error(data as any as string);
+        throw new Error(raw);
     }
 }

@@ -6,6 +6,7 @@
 
 import { FetchBase } from "./base";
 import { FetchFunction, IFetch, METHOD } from "./declare";
+import { parseJson } from "./util";
 
 export class FetchSimple extends FetchBase implements IFetch {
 
@@ -38,7 +39,7 @@ export class FetchSimple extends FetchBase implements IFetch {
         });
 
         const raw: string = await response.text();
-        const data: T = this._getData(raw);
+        const data: T = parseJson(raw, this._fallback);
 
         if (response.ok) {
 
@@ -47,15 +48,5 @@ export class FetchSimple extends FetchBase implements IFetch {
         }
 
         throw new Error(raw);
-    }
-
-    private _getData<T>(text: string): T {
-
-        try {
-            const parsed: T = JSON.parse(text);
-            return parsed;
-        } catch (err) {
-            return text as any as T;
-        }
     }
 }
