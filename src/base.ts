@@ -207,6 +207,27 @@ export class FetchBase {
         return this._body;
     }
 
+    public abort(): this {
+
+        if (this._abortController) {
+            this._abortController.abort();
+        }
+        return this;
+    }
+
+    public getAbortController(): AbortController | undefined {
+
+        return this._abortController;
+    }
+
+    protected getAbortSignal(): AbortSignal | undefined {
+
+        if (this._abortController) {
+            return this._abortController.signal;
+        }
+        return undefined;
+    }
+
     protected logRequestMessage(): void {
 
         if (

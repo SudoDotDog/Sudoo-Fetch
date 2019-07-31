@@ -18,7 +18,7 @@ describe('Given a {FetchJson} class', (): void => {
 
     it('should be able to construct', (): void => {
 
-        const clazz = new FetchJson(chance.string(), METHOD.GET, Sandbox.stub(), {});
+        const clazz = new FetchJson(chance.string(), METHOD.GET, Sandbox.stub(), Sandbox.stub(), {});
 
         expect(clazz).to.be.instanceOf(FetchJson);
         expect(clazz).to.be.instanceOf(FetchBase);

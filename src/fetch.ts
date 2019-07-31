@@ -125,8 +125,7 @@ export class Fetch {
             return signal;
         }
 
-        if (AbortController) {
-
+        if ("AbortController" in window) {
             return new AbortController();
         }
 

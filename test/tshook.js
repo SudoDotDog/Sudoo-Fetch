@@ -12,3 +12,4 @@ process.env = Object.assign(process.env, {
 ts_node.register({
     project: 'typescript/tsconfig.test.json'
 });
+global.window = {};

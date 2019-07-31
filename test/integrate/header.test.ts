@@ -47,6 +47,7 @@ describe('Given a (Header) scenario', (): void => {
                 },
                 method: "GET",
                 mode: "cors",
+                signal: undefined,
             },
             input: url,
         });
@@ -84,6 +85,7 @@ describe('Given a (Header) scenario', (): void => {
                 },
                 method: "GET",
                 mode: "cors",
+                signal: undefined,
             },
             input: url,
         });

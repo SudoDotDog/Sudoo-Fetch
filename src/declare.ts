@@ -27,10 +27,13 @@ export interface IFetch {
     combine(body: Record<string, any>): IFetch;
     bearer(token: string): IFetch;
     body(body: Record<string, any>): IFetch;
+    getBody(): Record<string, any> | undefined;
     fetch<T>(): Promise<T>;
     migrate(body: Record<string, any>): IFetch;
     header(name: string, value: any): IFetch;
     setMode(mode: RequestMode): IFetch;
+    abort(): IFetch;
+    getAbortController(): AbortController | undefined;
     debug(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
     debugRequest(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
     debugResponse(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;

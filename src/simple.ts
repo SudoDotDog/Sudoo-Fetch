@@ -33,6 +33,7 @@ export class FetchSimple extends FetchBase implements IFetch {
 
         const response: Response = await this._fetch(this._url, {
 
+            signal: this.getAbortSignal(),
             method: this._method,
             headers: this.mergeHeaders(),
             mode: this._mode,
