@@ -14,10 +14,11 @@ export class FetchFromData extends FetchBase implements IFetch {
         url: string,
         method: METHOD,
         fetchFunction: FetchFunction,
+        signal: AbortController | undefined,
         globalHeaders: Record<string, string>,
     ) {
 
-        super(url, method, fetchFunction, globalHeaders);
+        super(url, method, fetchFunction, signal, globalHeaders);
 
         this._headers = {
 
@@ -40,6 +41,7 @@ export class FetchFromData extends FetchBase implements IFetch {
         }
 
         const response: Response = await this._fetch(this._url, {
+            signal: this._abortController.signal,
             method: this._method,
             headers: this.mergeHeaders(),
             mode: this._mode,

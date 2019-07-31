@@ -21,11 +21,13 @@ export class FetchBase {
     protected _body: Record<string, any> = {};
     protected _headers: Record<string, string> = {};
     protected readonly _globalHeaders: Record<string, string>;
+    protected readonly _abortController: AbortController | undefined;
 
     protected _debugRequest: boolean = false;
     protected _debugResponse: boolean = false;
     protected _environment: string | null = null;
     protected _logFunction: LogFunction | null = null;
+
 
     protected _fallback: boolean = false;
 
@@ -33,12 +35,14 @@ export class FetchBase {
         url: string,
         method: METHOD,
         fetchFunction: FetchFunction,
+        signal: AbortController | undefined,
         globalHeaders: Record<string, string>,
     ) {
 
         this._url = url;
         this._method = method;
         this._fetch = fetchFunction;
+        this._abortController = signal;
 
         this._globalHeaders = globalHeaders;
     }

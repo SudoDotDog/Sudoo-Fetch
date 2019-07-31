@@ -14,10 +14,11 @@ export class FetchSimple extends FetchBase implements IFetch {
         url: string,
         method: METHOD,
         fetchFunction: FetchFunction,
+        signal: AbortController | undefined,
         globalHeaders: Record<string, string>,
     ) {
 
-        super(url, method, fetchFunction, globalHeaders);
+        super(url, method, fetchFunction, signal, globalHeaders);
 
         this._headers = {
 
