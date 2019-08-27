@@ -40,7 +40,7 @@ export class FetchFromData extends FetchBase implements IFetch {
             }
         }
 
-        const response: Response = await this._fetch(this._url, {
+        const response: Response = await this._fetch(this.buildUrl(), {
 
             signal: this.getAbortSignal(),
             method: this._method,

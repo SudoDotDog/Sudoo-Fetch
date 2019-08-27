@@ -6,7 +6,7 @@
 
 import { FetchFunction, METHOD } from "./declare";
 import { GlobalHeaderManager } from "./global";
-import { parseXHeader } from "./util";
+import { buildQuery, parseXHeader } from "./util";
 
 export type LogFunction = (...elements: any[]) => any;
 
@@ -19,6 +19,7 @@ export class FetchBase {
 
     protected _mode: RequestMode = "cors";
     protected _body: Record<string, any> = {};
+    protected _query: Record<string, any> = {};
     protected _headers: Record<string, string> = {};
     protected readonly _globalHeaders: Record<string, string>;
     protected readonly _abortController: AbortController | undefined;
@@ -53,6 +54,31 @@ export class FetchBase {
             ...this._headers,
             ...GlobalHeaderManager.instance.headers,
         };
+    }
+
+    public param(key: string, value: string): this {
+
+        this._query = {
+            ...this._query,
+            [key]: value,
+        };
+        return this;
+    }
+
+    public append(query: Record<string, string>): this {
+
+        const keys: string[] = Object.keys(query);
+
+        for (const key of keys) {
+            this.add(key, query[key]);
+        }
+        return this;
+    }
+
+    public query(query: Record<string, string>): this {
+
+        this._query = query;
+        return this;
     }
 
     public add(key: string, value: string): this {
@@ -218,6 +244,25 @@ export class FetchBase {
     public getAbortController(): AbortController | undefined {
 
         return this._abortController;
+    }
+
+    protected hasQuery(): boolean {
+
+        return Object.keys(this._query).length > 0;
+    }
+
+    protected buildQuery(): string {
+
+        return buildQuery(this._query);
+    }
+
+    protected buildUrl(): string {
+
+        if (this.hasQuery()) {
+
+            return this._url + '?' + this.buildQuery();
+        }
+        return this._url;
     }
 
     protected getAbortSignal(): AbortSignal | undefined {

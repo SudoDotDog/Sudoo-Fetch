@@ -21,3 +21,12 @@ export const parseJson = <T>(text: string, fallback: boolean): T => {
         throw err;
     }
 };
+
+export const buildQuery = (query: Record<string, string>) => {
+
+    const built = Object.keys(query)
+        .map((each: string) => encodeURIComponent(each) + '=' + encodeURIComponent(query[each]))
+        .join('&');
+
+    return built;
+};

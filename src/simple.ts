@@ -31,7 +31,7 @@ export class FetchSimple extends FetchBase implements IFetch {
         this.logRequestMessage();
         const body: Record<string, any> | undefined = this.getBody();
 
-        const response: Response = await this._fetch(this._url, {
+        const response: Response = await this._fetch(this.buildUrl(), {
 
             signal: this.getAbortSignal(),
             method: this._method,
