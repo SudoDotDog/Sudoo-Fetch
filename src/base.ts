@@ -70,7 +70,7 @@ export class FetchBase {
         const keys: string[] = Object.keys(query);
 
         for (const key of keys) {
-            this.add(key, query[key]);
+            this.param(key, query[key]);
         }
         return this;
     }
