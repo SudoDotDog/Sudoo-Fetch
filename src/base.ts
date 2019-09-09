@@ -29,7 +29,6 @@ export class FetchBase {
     protected _environment: string | null = null;
     protected _logFunction: LogFunction | null = null;
 
-
     protected _fallback: boolean = false;
 
     protected constructor(

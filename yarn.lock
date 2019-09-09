@@ -23,7 +23,7 @@
   resolved "https://registry.yarnpkg.com/@sudoo/mock/-/mock-1.2.0.tgz#7c3c5ff731ddaeb8839dac7a1384b8ef9d95948b"
   integrity sha512-k0JtsW2rrbwpjbuVQPCPq3cu+CeRWTP2ksFUnrNwlVbSwWcxzE/NdAajWFRP1tvQQNQ01tj/c4lnOV5IZmZaTg==
 
-"@sudoo/triforce@^1.8.2":
+"@sudoo/triforce@^1.8.3":
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/@sudoo/triforce/-/triforce-1.8.3.tgz#c35a1c62a1d65596321afe6c95d3a5a7d3bb20ca"
   integrity sha512-SWmm8UVtuzdteGDRYPUbbfnMpTNomGTqp5/eaoVkr1kix8kbrYwDOlalvyx4gUEKuBHYJCjcYwYpI6u/dcvOzw==
