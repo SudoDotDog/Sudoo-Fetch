@@ -4,7 +4,7 @@
  * @description Base
  */
 
-import { BaseType, FetchFunction, METHOD } from "./declare";
+import { FetchFunction, METHOD } from "./declare";
 import { GlobalHeaderManager } from "./global";
 import { buildQuery, parseXHeader } from "./util";
 
@@ -80,7 +80,7 @@ export class FetchBase {
         return this;
     }
 
-    public add(key: string, value: BaseType): this {
+    public add(key: string, value: any): this {
 
         if (this._method === METHOD.GET) {
             throw new Error('Request with GET/HEAD method cannot have body.');
@@ -94,7 +94,7 @@ export class FetchBase {
         return this;
     }
 
-    public addIfExist(key: string, value: BaseType | null | undefined): this {
+    public addIfExist(key: string, value: any): this {
 
         if (value === undefined || value === null) {
             return this;
@@ -103,7 +103,7 @@ export class FetchBase {
         return this.add(key, value);
     }
 
-    public combine(body: Record<string, BaseType>): this {
+    public combine(body: Record<string, any>): this {
 
         const keys: string[] = Object.keys(body);
 
@@ -113,7 +113,7 @@ export class FetchBase {
         return this;
     }
 
-    public combineIfExist(body: Record<string, BaseType | null | undefined>): this {
+    public combineIfExist(body: Record<string, any>): this {
 
         const keys: string[] = Object.keys(body);
 
@@ -125,14 +125,12 @@ export class FetchBase {
 
     public basic(token: string): this {
 
-        this._headers.Authorization = 'basic ' + token;
-        return this;
+        return this.authorization('basic ' + token);
     }
 
     public bearer(token: string): this {
 
-        this._headers.Authorization = 'bearer ' + token;
-        return this;
+        return this.authorization('bearer ' + token);
     }
 
     public body(body: Record<string, any>): this {
@@ -155,6 +153,11 @@ export class FetchBase {
         return this;
     }
 
+    public authorization(value: string): this {
+
+        return this.header('Authorization', value);
+    }
+
     public header(name: string, value: string): this {
 
         this._headers = {
@@ -163,6 +166,15 @@ export class FetchBase {
             [name]: value,
         };
         return this;
+    }
+
+    public headerIfExist(name: string, value: string | null | undefined): this {
+
+        if (value === undefined || value === null) {
+            return this;
+        }
+
+        return this.header(name, value);
     }
 
     public xHeader(name: string, value: string): this {

@@ -29,13 +29,17 @@ export interface IFetch {
     append(query: Record<string, string>): IFetch;
     query(query: Record<string, string>): IFetch;
     add(key: string, value: any): IFetch;
+    addIfExist(key: string, value: any): IFetch;
     combine(body: Record<string, any>): IFetch;
+    combineIfExist(body: Record<string, any>): IFetch;
     bearer(token: string): IFetch;
     body(body: Record<string, any>): IFetch;
     getBody(): Record<string, any> | undefined;
     fetch<T>(): Promise<T>;
     migrate(body: Record<string, any>): IFetch;
-    header(name: string, value: any): IFetch;
+    authorization(value: string): IFetch;
+    header(name: string, value: string): IFetch;
+    headerIfExist(name: string, value: string | undefined | null): IFetch;
     setMode(mode: RequestMode): IFetch;
     abort(): IFetch;
     getAbortController(): AbortController | undefined;
