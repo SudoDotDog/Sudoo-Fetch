@@ -4,6 +4,8 @@
  * @description Declare
  */
 
+export type BaseType = string | number | boolean;
+
 export type HeaderPair = {
 
     readonly key: string;

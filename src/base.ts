@@ -4,7 +4,7 @@
  * @description Base
  */
 
-import { FetchFunction, METHOD } from "./declare";
+import { BaseType, FetchFunction, METHOD } from "./declare";
 import { GlobalHeaderManager } from "./global";
 import { buildQuery, parseXHeader } from "./util";
 
@@ -80,7 +80,7 @@ export class FetchBase {
         return this;
     }
 
-    public add(key: string, value: string): this {
+    public add(key: string, value: BaseType): this {
 
         if (this._method === METHOD.GET) {
             throw new Error('Request with GET/HEAD method cannot have body.');
@@ -94,12 +94,31 @@ export class FetchBase {
         return this;
     }
 
-    public combine(body: Record<string, any>): this {
+    public addIfExist(key: string, value: BaseType | null | undefined): this {
+
+        if (value === undefined || value === null) {
+            return this;
+        }
+
+        return this.add(key, value);
+    }
+
+    public combine(body: Record<string, BaseType>): this {
 
         const keys: string[] = Object.keys(body);
 
         for (const key of keys) {
             this.add(key, body[key]);
+        }
+        return this;
+    }
+
+    public combineIfExist(body: Record<string, BaseType | null | undefined>): this {
+
+        const keys: string[] = Object.keys(body);
+
+        for (const key of keys) {
+            this.addIfExist(key, body[key]);
         }
         return this;
     }
