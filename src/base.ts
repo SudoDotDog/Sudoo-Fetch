@@ -82,8 +82,8 @@ export class FetchBase {
 
     public add(key: string, value: any): this {
 
-        if (this._method === METHOD.GET) {
-            throw new Error('Request with GET/HEAD method cannot have body.');
+        if (this._isBodyFree()) {
+            throw new Error(`Request with ${this._method} method cannot have body.`);
         }
 
         this._body = {
@@ -150,8 +150,8 @@ export class FetchBase {
 
     public body(body: Record<string, any>): this {
 
-        if (this._method === METHOD.GET) {
-            throw new Error('Request with GET/HEAD method cannot have body.');
+        if (this._isBodyFree()) {
+            throw new Error(`Request with ${this._method} method cannot have body.`);
         }
 
         this._body = body;
@@ -271,7 +271,7 @@ export class FetchBase {
 
     public getBody(): Record<string, any> | undefined {
 
-        if (this._method === METHOD.GET) {
+        if (this._isBodyFree()) {
             return undefined;
         }
 
@@ -348,5 +348,12 @@ export class FetchBase {
 
             this._logFunction('FETCH-DEBUG-RESPONSE', ...elements);
         }
+    }
+
+    private _isBodyFree(): boolean {
+
+        return this._method === METHOD.GET
+            || this._method === METHOD.HEAD
+            || this._method === METHOD.OPTION;
     }
 }

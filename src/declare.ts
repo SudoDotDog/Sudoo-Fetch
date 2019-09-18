@@ -18,6 +18,8 @@ export enum METHOD {
     POST = "POST",
     DELETE = "DELETE",
     PUT = "PUT",
+    HEAD = "HEAD",
+    PATCH = "PATCH",
     OPTION = "OPTION",
 }
 

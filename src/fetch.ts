@@ -34,6 +34,16 @@ export class Fetch {
         return new Fetch(METHOD.DELETE);
     }
 
+    public static get head() {
+
+        return new Fetch(METHOD.HEAD);
+    }
+
+    public static get patch() {
+
+        return new Fetch(METHOD.PATCH);
+    }
+
     public static get option() {
 
         return new Fetch(METHOD.OPTION);
