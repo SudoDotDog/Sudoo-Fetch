@@ -133,6 +133,21 @@ export class FetchBase {
         return this.authorization('bearer ' + token);
     }
 
+    public digest(token: string): this {
+
+        return this.authorization('Digest ' + token);
+    }
+
+    public hoba(token: string): this {
+
+        return this.authorization('HOBA ' + token);
+    }
+
+    public mutual(token: string): this {
+
+        return this.authorization('Mutual ' + token);
+    }
+
     public body(body: Record<string, any>): this {
 
         if (this._method === METHOD.GET) {

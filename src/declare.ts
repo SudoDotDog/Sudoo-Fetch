@@ -32,7 +32,11 @@ export interface IFetch {
     addIfExist(key: string, value: any): IFetch;
     combine(body: Record<string, any>): IFetch;
     combineIfExist(body: Record<string, any>): IFetch;
+    basic(token: string): IFetch;
     bearer(token: string): IFetch;
+    digest(token: string): IFetch;
+    hoba(token: string): IFetch;
+    mutual(token: string): IFetch;
     body(body: Record<string, any>): IFetch;
     getBody(): Record<string, any> | undefined;
     fetch<T>(): Promise<T>;
