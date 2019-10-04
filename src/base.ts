@@ -64,12 +64,35 @@ export class FetchBase {
         return this;
     }
 
+    public paramIfExist(key: string, value: string | undefined | null): this {
+
+        if (value === undefined || value === null) {
+            return this;
+        }
+
+        this._query = {
+            ...this._query,
+            [key]: value,
+        };
+        return this;
+    }
+
     public append(query: Record<string, string>): this {
 
         const keys: string[] = Object.keys(query);
 
         for (const key of keys) {
             this.param(key, query[key]);
+        }
+        return this;
+    }
+
+    public appendIfExist(query: Record<string, string>): this {
+
+        const keys: string[] = Object.keys(query);
+
+        for (const key of keys) {
+            this.paramIfExist(key, query[key]);
         }
         return this;
     }
@@ -329,6 +352,8 @@ export class FetchBase {
 
             this._logFunction('FETCH-DEBUG-REQUEST', {
                 Url: this._url,
+                Built: this.buildUrl(),
+                Query: this._query,
                 Method: this._method,
                 Mode: this._mode,
                 Header: this._headers,
