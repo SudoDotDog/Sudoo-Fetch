@@ -5,7 +5,7 @@
  */
 
 import { FetchFunction, METHOD } from "./declare";
-import { GlobalHeaderManager } from "./global";
+import { GlobalFetchManager } from "./global";
 import { buildQuery, parseXHeader } from "./util";
 
 export type LogFunction = (...elements: any[]) => any;
@@ -51,7 +51,7 @@ export class FetchBase {
 
         return {
             ...this._headers,
-            ...GlobalHeaderManager.instance.headers,
+            ...GlobalFetchManager.instance.headers,
         };
     }
 

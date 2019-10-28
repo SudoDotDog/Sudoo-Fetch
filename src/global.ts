@@ -6,14 +6,14 @@
 
 import { HeaderPair } from "./declare";
 
-export class GlobalHeaderManager {
+export class GlobalFetchManager {
 
-    public static get instance(): GlobalHeaderManager {
+    public static get instance(): GlobalFetchManager {
 
         return this._instance;
     }
 
-    private static readonly _instance = new GlobalHeaderManager();
+    private static readonly _instance = new GlobalFetchManager();
 
     private _headers: HeaderPair[];
 

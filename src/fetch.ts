@@ -6,7 +6,7 @@
 
 import { FetchFunction, IFetch, METHOD } from "./declare";
 import { FetchFromData } from "./form-data";
-import { GlobalHeaderManager } from "./global";
+import { GlobalFetchManager } from "./global";
 import { FetchJson } from "./json";
 import { FetchSimple } from "./simple";
 import { FetchUpload } from "./upload";
@@ -51,48 +51,48 @@ export class Fetch {
 
     public static get globalHeaders(): Record<string, string> {
 
-        return GlobalHeaderManager.instance.headers;
+        return GlobalFetchManager.instance.headers;
     }
 
     public static setGlobalHeader(name: string, value: string): typeof Fetch {
 
-        GlobalHeaderManager.instance.add(name, value);
+        GlobalFetchManager.instance.add(name, value);
         return Fetch;
     }
 
     public static setGlobalXHeader(name: string, value: string): typeof Fetch {
 
-        GlobalHeaderManager.instance.add(parseXHeader(name), value);
+        GlobalFetchManager.instance.add(parseXHeader(name), value);
         return Fetch;
     }
 
     public static getGlobalHeader(name: string): string | null {
 
-        return GlobalHeaderManager.instance.get(name);
+        return GlobalFetchManager.instance.get(name);
     }
 
     public static getGlobalXHeader(name: string): string | null {
 
         const header: string = parseXHeader(name);
-        return GlobalHeaderManager.instance.get(header);
+        return GlobalFetchManager.instance.get(header);
     }
 
     public static removeGlobalHeader(name: string): typeof Fetch {
 
-        GlobalHeaderManager.instance.remove(name);
+        GlobalFetchManager.instance.remove(name);
         return this;
     }
 
     public static removeGlobalXHeader(name: string): typeof Fetch {
 
         const header: string = parseXHeader(name);
-        GlobalHeaderManager.instance.remove(header);
+        GlobalFetchManager.instance.remove(header);
         return this;
     }
 
     public static removeAllGlobalHeaders(): typeof Fetch {
 
-        GlobalHeaderManager.instance.removeAll();
+        GlobalFetchManager.instance.removeAll();
         return this;
     }
 
