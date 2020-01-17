@@ -7,7 +7,7 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "lib": [
-            "dom",
+            "DOM",
             "es2016",
             "es6"
         ],
@@ -16,12 +16,12 @@
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
-        "outDir": "../dist",
+        "outDir": "../app",
         "removeComments": true,
         "resolveJsonModule": true,
         "strict": true,
         "strictNullChecks": true,
-        "target": "es5",
+        "target": "es5"
     },
     "exclude": [
         "node_modules",

@@ -3,10 +3,10 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "lib": [
-            "dom",
+            "DOM",
             "es2016",
             "es2017",
-            "es6",
+            "es6"
         ],
         "module": "commonjs",
         "moduleResolution": "node",
