@@ -23,6 +23,8 @@ export enum METHOD {
     OPTION = "OPTION",
 }
 
+export type PostProcessFunction = <T = any>(response: T) => T;
+
 export type FetchFunction = (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 
 export interface IFetch {

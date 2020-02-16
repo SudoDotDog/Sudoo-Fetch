@@ -4,7 +4,7 @@
  * @description Base
  */
 
-import { FetchFunction, METHOD } from "./declare";
+import { FetchFunction, METHOD, PostProcessFunction } from "./declare";
 import { GlobalFetchManager } from "./global";
 import { buildQuery, parseXHeader } from "./util";
 
@@ -30,6 +30,8 @@ export class FetchBase {
     protected _logFunction: LogFunction | null = null;
 
     protected _fallback: boolean = false;
+
+    protected readonly _postProcessFunctions: PostProcessFunction[] = [];
 
     protected constructor(
         url: string,
