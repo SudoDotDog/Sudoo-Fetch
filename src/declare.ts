@@ -60,4 +60,6 @@ export interface IFetch {
     enableFallback(): IFetch;
     disableFallback(): IFetch;
     setLogFunction(logFunction: (...elements: any[]) => void): IFetch;
+    addPostProcessFunction(postProcessFunction: PostProcessFunction): IFetch;
+    addPostProcessFunctions(...postProcessFunctions: PostProcessFunction[]): IFetch;
 }

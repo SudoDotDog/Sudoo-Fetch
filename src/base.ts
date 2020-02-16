@@ -316,6 +316,20 @@ export class FetchBase {
         return this._abortController;
     }
 
+    public addPostProcessFunction(postProcessFunction: PostProcessFunction): this {
+
+        this._postProcessFunctions.push(postProcessFunction);
+        return this;
+    }
+
+    public addPostProcessFunctions(...postProcessFunctions: PostProcessFunction[]): this {
+
+        for (const each of postProcessFunctions) {
+            this.addPostProcessFunction(each);
+        }
+        return this;
+    }
+
     protected hasQuery(): boolean {
 
         return Object.keys(this._query).length > 0;
