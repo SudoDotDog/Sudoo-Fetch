@@ -391,6 +391,32 @@ export class FetchBase {
         }
     }
 
+    protected executePostProcessFunctions<T extends any = any>(response: T): T {
+
+        if (this._postProcessFunctions.length === 0) {
+            return response;
+        }
+
+        const processed: T = this._postProcessFunctions.reduce(
+            (previous: T, current: PostProcessFunction) => current(previous),
+            response,
+        );
+        return processed;
+    }
+
+    protected reverseExecutePostProcessFunctions<T extends any = any>(response: T): T {
+
+        if (this._postProcessFunctions.length === 0) {
+            return response;
+        }
+
+        const processed: T = this._postProcessFunctions.reduceRight(
+            (previous: T, current: PostProcessFunction) => current(previous),
+            response,
+        );
+        return processed;
+    }
+
     private _isBodyFree(): boolean {
 
         return this._method === METHOD.GET

@@ -46,7 +46,7 @@ export class FetchSimple extends FetchBase implements IFetch {
         if (response.ok) {
 
             this.logResponseMessage(data);
-            return data;
+            return this.executePostProcessFunctions(data);
         }
 
         throw new Error(raw);
