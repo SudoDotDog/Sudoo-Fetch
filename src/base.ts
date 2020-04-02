@@ -389,15 +389,12 @@ export abstract class FetchBase {
             && typeof this._logFunction === 'function'
         ) {
 
-            this._logFunction('FETCH-DEBUG-REQUEST', {
-                Url: this._url,
-                Built: this.buildUrl(),
-                Query: this._query,
-                Method: this._method,
-                Mode: this._mode,
-                Header: this._headers,
-                Body: this._body,
-            });
+            if (typeof this._name === 'string') {
+                this._logFunction('FETCH-DEBUG-REQUEST', this._name, this._buildRequestInfo());
+                return;
+            }
+
+            this._logFunction('FETCH-DEBUG-REQUEST', this._buildRequestInfo());
         }
     }
 
@@ -409,6 +406,11 @@ export abstract class FetchBase {
             && this._logFunction
             && typeof this._logFunction === 'function'
         ) {
+
+            if (typeof this._name === 'string') {
+                this._logFunction('FETCH-DEBUG-RESPONSE', this._name, ...elements);
+                return;
+            }
 
             this._logFunction('FETCH-DEBUG-RESPONSE', ...elements);
         }
@@ -448,6 +450,19 @@ export abstract class FetchBase {
             response,
         );
         return processed;
+    }
+
+    private _buildRequestInfo(): Record<string, any> {
+
+        return {
+            Url: this._url,
+            Built: this.buildUrl(),
+            Query: this._query,
+            Method: this._method,
+            Mode: this._mode,
+            Header: this._headers,
+            Body: this._body,
+        };
     }
 
     private _isBodyFree(): boolean {
