@@ -58,6 +58,12 @@ export abstract class FetchBase {
         return this;
     }
 
+    public removeName(): this {
+
+        this._name = null;
+        return this;
+    }
+
     public mergeHeaders(): Record<string, string> {
 
         return {

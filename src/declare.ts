@@ -31,6 +31,7 @@ export type FetchFunction = (input: RequestInfo, init?: RequestInit) => Promise<
 export interface IFetch {
 
     setName(name: string): IFetch;
+    removeName(): IFetch;
     param(key: string, value: string): IFetch;
     paramIfExist(key: string, value: string | undefined | null): IFetch;
     append(query: Record<string, string>): IFetch;
