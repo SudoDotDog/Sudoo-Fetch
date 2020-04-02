@@ -10,7 +10,7 @@ import { buildQuery, parseXHeader } from "./util";
 
 export type LogFunction = (...elements: any[]) => any;
 
-export class FetchBase {
+export abstract class FetchBase {
 
     protected readonly _url: string;
     protected readonly _method: METHOD;
