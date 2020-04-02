@@ -24,11 +24,13 @@ export enum METHOD {
 }
 
 export type PostProcessFunction = <T = any>(response: T) => T;
+export type ValidateFunction = <T = any>(response: T) => boolean;
 
 export type FetchFunction = (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 
 export interface IFetch {
 
+    setName(name: string): IFetch;
     param(key: string, value: string): IFetch;
     paramIfExist(key: string, value: string | undefined | null): IFetch;
     append(query: Record<string, string>): IFetch;
@@ -60,6 +62,8 @@ export interface IFetch {
     enableFallback(): IFetch;
     disableFallback(): IFetch;
     setLogFunction(logFunction: (...elements: any[]) => void): IFetch;
+    addValidateFunction(validateFunction: ValidateFunction): IFetch;
+    addValidateFunctions(...validateFunctions: ValidateFunction[]): IFetch;
     addPostProcessFunction(postProcessFunction: PostProcessFunction): IFetch;
     addPostProcessFunctions(...postProcessFunctions: PostProcessFunction[]): IFetch;
 }

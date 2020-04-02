@@ -4,7 +4,7 @@
  * @description Base
  */
 
-import { FetchFunction, METHOD, PostProcessFunction } from "./declare";
+import { FetchFunction, METHOD, PostProcessFunction, ValidateFunction } from "./declare";
 import { GlobalFetchManager } from "./global";
 import { buildQuery, parseXHeader } from "./util";
 
@@ -16,6 +16,8 @@ export abstract class FetchBase {
     protected readonly _method: METHOD;
 
     protected readonly _fetch: FetchFunction;
+
+    protected _name: string | null = null;
 
     protected _mode: RequestMode = "cors";
     protected _body: Record<string, any> = {};
@@ -31,6 +33,7 @@ export abstract class FetchBase {
 
     protected _fallback: boolean = false;
 
+    protected readonly _validateFunctions: ValidateFunction[] = [];
     protected readonly _postProcessFunctions: PostProcessFunction[] = [];
 
     protected constructor(
@@ -47,6 +50,12 @@ export abstract class FetchBase {
         this._abortController = signal;
 
         this._globalHeaders = globalHeaders;
+    }
+
+    public setName(name: string): this {
+
+        this._name = name;
+        return this;
     }
 
     public mergeHeaders(): Record<string, string> {
@@ -316,6 +325,20 @@ export abstract class FetchBase {
         return this._abortController;
     }
 
+    public addValidateFunction(validateFunction: ValidateFunction): this {
+
+        this._validateFunctions.push(validateFunction);
+        return this;
+    }
+
+    public addValidateFunctions(...validateFunctions: ValidateFunction[]): this {
+
+        for (const each of validateFunctions) {
+            this.addValidateFunction(each);
+        }
+        return this;
+    }
+
     public addPostProcessFunction(postProcessFunction: PostProcessFunction): this {
 
         this._postProcessFunctions.push(postProcessFunction);
@@ -389,6 +412,16 @@ export abstract class FetchBase {
 
             this._logFunction('FETCH-DEBUG-RESPONSE', ...elements);
         }
+    }
+
+    protected executeValidateFunctions<T extends any = any>(response: T): boolean {
+
+        if (this._validateFunctions.length === 0) {
+            return true;
+        }
+
+        const result: boolean = this._validateFunctions.every((each: ValidateFunction) => each(response));
+        return result;
     }
 
     protected executePostProcessFunctions<T extends any = any>(response: T): T {
