@@ -200,11 +200,19 @@ export abstract class FetchBase {
 
     public migrate(body: Record<string, any>): this {
 
-        this._body = {
+        const keys: string[] = Object.keys(body);
+        for (const key of keys) {
+            this.add(key, body[key]);
+        }
+        return this;
+    }
 
-            ...this._body,
-            ...body,
-        };
+    public migrateIfExist(body: Record<string, any>): this {
+
+        const keys: string[] = Object.keys(body);
+        for (const key of keys) {
+            this.addIfExist(key, body[key]);
+        }
         return this;
     }
 

@@ -50,6 +50,7 @@ export interface IFetch {
     getBody(): Record<string, any> | undefined;
     fetch<T>(): Promise<T>;
     migrate(body: Record<string, any>): IFetch;
+    migrateIfExist(body: Record<string, any>): IFetch;
     authorization(value: string): IFetch;
     header(name: string, value: string): IFetch;
     headerIfExist(name: string, value: string | undefined | null): IFetch;
