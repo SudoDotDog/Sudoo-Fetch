@@ -104,29 +104,49 @@ export class Fetch {
 
         if (process.env.NODE_ENV !== 'test') {
             if (!Boolean(window)) {
-                throw new Error('[Sudoo-Fetch] This module only work with browser');
+                throw new Error('[Sudoo-Fetch] This module only work with environment with fetch');
             }
         }
     }
 
     public json(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): IFetch {
 
-        return new FetchJson(url, this._method, fetchFunction, this._getAbortController(signal), Fetch.globalHeaders);
+        return new FetchJson(url,
+            this._method,
+            fetchFunction,
+            this._getAbortController(signal),
+            Fetch.globalHeaders,
+        );
     }
 
     public simple(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): IFetch {
 
-        return new FetchSimple(url, this._method, fetchFunction, this._getAbortController(signal), Fetch.globalHeaders);
+        return new FetchSimple(url,
+            this._method,
+            fetchFunction,
+            this._getAbortController(signal),
+            Fetch.globalHeaders,
+        );
     }
 
     public upload(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): IFetch {
 
-        return new FetchUpload(url, this._method, fetchFunction, this._getAbortController(signal), Fetch.globalHeaders);
+        return new FetchUpload(url,
+            this._method,
+            fetchFunction,
+            this._getAbortController(signal),
+            Fetch.globalHeaders,
+        );
     }
 
     public formData(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): IFetch {
 
-        return new FetchFromData(url, this._method, fetchFunction, this._getAbortController(signal), Fetch.globalHeaders);
+        return new FetchFromData(url,
+            this._method,
+            fetchFunction,
+            this._getAbortController(signal),
+            Fetch.globalHeaders,
+        );
     }
 
     private _getAbortController(signal?: AbortController): AbortController | undefined {
