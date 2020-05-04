@@ -367,6 +367,15 @@ export abstract class FetchBase {
         return this;
     }
 
+    protected buildUrl(): string {
+
+        if (this.hasQuery()) {
+
+            return this._url + '?' + this.buildQuery();
+        }
+        return this._url;
+    }
+
     protected hasQuery(): boolean {
 
         return Object.keys(this._query).length > 0;
@@ -375,15 +384,6 @@ export abstract class FetchBase {
     protected buildQuery(): string {
 
         return buildQuery(this._query);
-    }
-
-    protected buildUrl(): string {
-
-        if (this.hasQuery()) {
-
-            return this._url + '?' + this.buildQuery();
-        }
-        return this._url;
     }
 
     protected getAbortSignal(): AbortSignal | undefined {
