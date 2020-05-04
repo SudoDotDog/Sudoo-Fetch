@@ -339,13 +339,13 @@ export abstract class FetchBase {
         return this._abortController;
     }
 
-    public addValidateFunction(validateFunction: ValidateFunction): this {
+    public addValidateFunction<T extends any = any>(validateFunction: ValidateFunction<T>): this {
 
         this._validateFunctions.push(validateFunction);
         return this;
     }
 
-    public addValidateFunctions(...validateFunctions: ValidateFunction[]): this {
+    public addValidateFunctions<T extends any = any>(...validateFunctions: Array<ValidateFunction<T>>): this {
 
         for (const each of validateFunctions) {
             this.addValidateFunction(each);
@@ -353,13 +353,13 @@ export abstract class FetchBase {
         return this;
     }
 
-    public addPostProcessFunction(postProcessFunction: PostProcessFunction): this {
+    public addPostProcessFunction<T extends any = any>(postProcessFunction: PostProcessFunction<T>): this {
 
         this._postProcessFunctions.push(postProcessFunction);
         return this;
     }
 
-    public addPostProcessFunctions(...postProcessFunctions: PostProcessFunction[]): this {
+    public addPostProcessFunctions<T extends any = any>(...postProcessFunctions: Array<PostProcessFunction<T>>): this {
 
         for (const each of postProcessFunctions) {
             this.addPostProcessFunction(each);

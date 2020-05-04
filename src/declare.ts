@@ -23,8 +23,8 @@ export enum METHOD {
     OPTION = "OPTION",
 }
 
-export type PostProcessFunction = <T = any>(response: T) => T;
-export type ValidateFunction = <T = any>(response: T) => boolean;
+export type PostProcessFunction<T = any> = (response: T) => T;
+export type ValidateFunction<T = any> = (response: T) => boolean;
 
 export type FetchFunction = (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 
