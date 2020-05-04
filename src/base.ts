@@ -4,6 +4,8 @@
  * @description Base
  */
 
+import { DraftFunction, produce } from "@sudoo/immutable";
+import { Pattern, Verifier, VerifyResult } from "@sudoo/verify";
 import { FetchFunction, METHOD, PostProcessFunction, ValidateFunction } from "./declare";
 import { GlobalFetchManager } from "./global";
 import { buildQuery, parseXHeader } from "./util";
@@ -33,8 +35,8 @@ export abstract class FetchBase {
 
     protected _fallback: boolean = false;
 
-    protected readonly _validateFunctions: ValidateFunction[] = [];
-    protected readonly _postProcessFunctions: PostProcessFunction[] = [];
+    protected _validateFunctions: ValidateFunction[] = [];
+    protected _postProcessFunctions: PostProcessFunction[] = [];
 
     protected constructor(
         url: string,
@@ -339,6 +341,16 @@ export abstract class FetchBase {
         return this._abortController;
     }
 
+    public addVerifyValidation(pattern: Pattern): this {
+
+        const verifier: Verifier = Verifier.create(pattern);
+        this.addValidateFunction((response: any) => {
+            const verifyResult: VerifyResult = verifier.verify(response);
+            return verifyResult.succeed;
+        });
+        return this;
+    }
+
     public addValidateFunction<T extends any = any>(validateFunction: ValidateFunction<T>): this {
 
         this._validateFunctions.push(validateFunction);
@@ -349,6 +361,28 @@ export abstract class FetchBase {
 
         for (const each of validateFunctions) {
             this.addValidateFunction(each);
+        }
+        return this;
+    }
+
+    public clearValidationFunctions(): this {
+
+        this._validateFunctions = [];
+        return this;
+    }
+
+    public addProducePostProcessFunction<T extends any = any>(draftFunction: DraftFunction<T>): this {
+
+        this.addPostProcessFunction((response: T) => {
+            return produce(response, draftFunction);
+        });
+        return this;
+    }
+
+    public addProducePostProcessFunctions<T extends any = any>(...draftFunctions: Array<DraftFunction<T>>): this {
+
+        for (const each of draftFunctions) {
+            this.addProducePostProcessFunction(each);
         }
         return this;
     }
@@ -364,6 +398,12 @@ export abstract class FetchBase {
         for (const each of postProcessFunctions) {
             this.addPostProcessFunction(each);
         }
+        return this;
+    }
+
+    public clearPostProcessFunctions(): this {
+
+        this._postProcessFunctions = [];
         return this;
     }
 

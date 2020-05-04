@@ -4,6 +4,9 @@
  * @description Declare
  */
 
+import { DraftFunction } from "@sudoo/immutable";
+import { Pattern } from "@sudoo/verify";
+
 export type BaseType = string | number | boolean;
 
 export type HeaderPair = {
@@ -64,8 +67,13 @@ export interface IFetch {
     enableFallback(): IFetch;
     disableFallback(): IFetch;
     setLogFunction(logFunction: (...elements: any[]) => void): IFetch;
-    addValidateFunction(validateFunction: ValidateFunction): IFetch;
-    addValidateFunctions(...validateFunctions: ValidateFunction[]): IFetch;
-    addPostProcessFunction(postProcessFunction: PostProcessFunction): IFetch;
-    addPostProcessFunctions(...postProcessFunctions: PostProcessFunction[]): IFetch;
+    addVerifyValidation(pattern: Pattern): IFetch;
+    addValidateFunction<T extends any = any>(validateFunction: ValidateFunction<T>): IFetch;
+    addValidateFunctions<T extends any = any>(...validateFunctions: Array<ValidateFunction<T>>): IFetch;
+    clearValidationFunctions(): IFetch;
+    addProducePostProcessFunction<T extends any = any>(draftFunction: DraftFunction<T>): IFetch;
+    addProducePostProcessFunctions<T extends any = any>(...draftFunctions: Array<DraftFunction<T>>): IFetch;
+    addPostProcessFunction<T extends any = any>(postProcessFunction: PostProcessFunction<T>): IFetch;
+    addPostProcessFunctions<T extends any = any>(...postProcessFunctions: Array<PostProcessFunction<T>>): IFetch;
+    clearPostProcessFunctions(): IFetch;
 }
