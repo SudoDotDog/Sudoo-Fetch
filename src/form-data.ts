@@ -23,6 +23,7 @@ export class FetchFromData extends FetchBase implements IFetch {
         this._headers = {
 
             ...this._headers,
+            'Accept': 'application/json',
         };
     }
 
