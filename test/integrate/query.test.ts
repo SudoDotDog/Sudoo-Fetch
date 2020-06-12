@@ -16,7 +16,8 @@ describe('Given a (Query) scenario', (): void => {
 
     it('should be able to fetch without query', async (): Promise<void> => {
 
-        const url: string = JSON.stringify(chance.string());
+        const value: string = chance.string();
+        const url: string = JSON.stringify(value);
         const result: any = {};
 
         const mock = (input: RequestInfo, init?: RequestInit) => {
@@ -34,6 +35,7 @@ describe('Given a (Query) scenario', (): void => {
 
         const res = await clazz.fetch();
 
+        expect(res).to.be.equal(value);
         expect(result.input).to.be.equal(url);
     });
 
@@ -61,6 +63,7 @@ describe('Given a (Query) scenario', (): void => {
 
         const res = await clazz.fetch();
 
+        expect(res).to.be.equal(JSON.parse(url));
         expect(result.input).to.be.equal(`${url}?${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
     });
 
@@ -94,6 +97,7 @@ describe('Given a (Query) scenario', (): void => {
 
         const res = await clazz.fetch();
 
+        expect(res).to.be.equal(JSON.parse(url));
         expect(result.input).to.be.equal(`${url}?${encodeURIComponent(key)}=${encodeURIComponent(value)}&${encodeURIComponent(key2)}=${encodeURIComponent(value2)}`);
     });
 });
