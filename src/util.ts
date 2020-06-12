@@ -22,9 +22,9 @@ export const parseJson = <T>(text: string, fallback: boolean): T => {
     }
 };
 
-export const buildQuery = (query: Record<string, string>) => {
+export const buildQuery = (query: Record<string, string>): string => {
 
-    const built = Object.keys(query)
+    const built: string = Object.keys(query)
         .map((each: string) => encodeURIComponent(each) + '=' + encodeURIComponent(query[each]))
         .join('&');
 

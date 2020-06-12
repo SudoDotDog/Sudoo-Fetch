@@ -14,37 +14,37 @@ import { parseXHeader } from "./util";
 
 export class Fetch {
 
-    public static get get() {
+    public static get get(): Fetch {
 
         return new Fetch(METHOD.GET);
     }
 
-    public static get post() {
+    public static get post(): Fetch {
 
         return new Fetch(METHOD.POST);
     }
 
-    public static get put() {
+    public static get put(): Fetch {
 
         return new Fetch(METHOD.PUT);
     }
 
-    public static get delete() {
+    public static get delete(): Fetch {
 
         return new Fetch(METHOD.DELETE);
     }
 
-    public static get head() {
+    public static get head(): Fetch {
 
         return new Fetch(METHOD.HEAD);
     }
 
-    public static get patch() {
+    public static get patch(): Fetch {
 
         return new Fetch(METHOD.PATCH);
     }
 
-    public static get option() {
+    public static get option(): Fetch {
 
         return new Fetch(METHOD.OPTION);
     }
