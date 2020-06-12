@@ -11,6 +11,7 @@ import { Fetch } from "../../src/fetch";
 
 describe('Given a (Query) scenario', (): void => {
 
+    (global.window as any) = {};
     const chance: Chance.Chance = new Chance('fetch-query');
 
     it('should be able to fetch without query', async (): Promise<void> => {

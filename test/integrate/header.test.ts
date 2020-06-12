@@ -11,6 +11,7 @@ import { Fetch } from "../../src/fetch";
 
 describe('Given a (Header) scenario', (): void => {
 
+    (global.window as any) = {};
     const chance: Chance.Chance = new Chance('fetch-header');
 
     afterEach((): void => {

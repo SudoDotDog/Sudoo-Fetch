@@ -14,6 +14,7 @@ import { FetchJson } from "../../src/json";
 
 describe('Given a {FetchJson} class', (): void => {
 
+    (global.window as any) = {};
     const chance: Chance.Chance = new Chance('fetch-json');
 
     it('should be able to construct', (): void => {
