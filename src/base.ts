@@ -5,7 +5,8 @@
  */
 
 import { DraftFunction, produce } from "@sudoo/immutable";
-import { Pattern, Verifier, VerifyResult } from "@sudoo/verify";
+import { Pattern } from "@sudoo/pattern";
+import { Verifier, VerifyResult } from "@sudoo/verify";
 import { FetchFunction, METHOD, PostProcessFunction, ValidateFunction } from "./declare";
 import { GlobalFetchManager } from "./global";
 import { buildQuery, parseXHeader } from "./util";

@@ -5,7 +5,7 @@
  */
 
 import { DraftFunction } from "@sudoo/immutable";
-import { Pattern } from "@sudoo/verify";
+import { Pattern } from "@sudoo/pattern";
 
 export type BaseType = string | number | boolean;
 
