@@ -6,3 +6,13 @@
 [![downloads](https://img.shields.io/npm/dm/@sudoo/fetch.svg)](https://www.npmjs.com/package/@sudoo/fetch)
 
 :cloud: Request for browser
+
+## Install
+
+```sh
+yarn add @sudoo/fetch
+yarn add @sudoo/verify @sudoo/pattern # Peer Dependencies
+# Or
+npm install @sudoo/fetch --save
+npm install @sudoo/verify @sudoo/pattern --save # Peer Dependencies
+```
