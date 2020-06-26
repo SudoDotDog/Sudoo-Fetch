@@ -37,7 +37,7 @@ export class FetchUpload extends FetchBase implements IFetch {
         if (body) {
 
             const keys: string[] = Object.keys(body);
-            keysLoop: for (const key of keys) {
+            keys.forEach((key: string): void => {
 
                 const value: any = body[key];
                 if (Array.isArray(value)) {
@@ -46,14 +46,27 @@ export class FetchUpload extends FetchBase implements IFetch {
                         ? key
                         : `${key}[]`;
 
-                    value.forEach((each: any) => formData.append(appendKey, each));
-                    continue keysLoop;
+                    value.forEach((each: any): void => {
+
+                        if (typeof each.toString === 'function') {
+                            formData.append(appendKey, each.toString());
+                            return;
+                        }
+
+                        if (typeof each === 'object') {
+                            formData.append(appendKey, JSON.stringify(each));
+                            return;
+                        }
+
+                        formData.append(appendKey, String(each));
+                    });
+                    return;
                 }
 
                 if (value instanceof Date) {
 
                     formData.append(key, value.toISOString());
-                    continue keysLoop;
+                    return;
                 }
 
                 if (typeof value === 'string'
@@ -61,29 +74,29 @@ export class FetchUpload extends FetchBase implements IFetch {
                     || typeof value === 'boolean') {
 
                     formData.append(key, value.toString());
-                    continue keysLoop;
+                    return;
                 }
 
                 if (value === null) {
 
                     formData.append(key, 'null');
-                    continue keysLoop;
+                    return;
                 }
 
                 if (typeof value === 'undefined') {
 
                     formData.append(key, 'undefined');
-                    continue keysLoop;
+                    return;
                 }
 
                 if (typeof value === 'object') {
 
                     formData.append(key, JSON.stringify(value));
-                    continue keysLoop;
+                    return;
                 }
 
-                formData.append(key, body[key]);
-            }
+                formData.append(key, String(body[key]));
+            });
         }
 
         const response: Response = await this._fetch(this.buildUrl(), {
