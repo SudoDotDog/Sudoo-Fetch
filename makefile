@@ -17,10 +17,11 @@ dev:
 build:
 	@echo "[INFO] Building for production"
 	@NODE_ENV=production $(tsc) --p $(build)
-	
+
 tests:
 	@echo "[INFO] Testing with Mocha"
-	@NODE_ENV=test $(mocha) --config test/.mocharc.json
+	@NODE_ENV=test \
+	$(mocha) --config test/.mocharc.json
 
 cov:
 	@echo "[INFO] Testing with Nyc and Mocha"
@@ -29,11 +30,15 @@ cov:
 
 lint:
 	@echo "[INFO] Linting"
-	@$(eslint) . --ext .ts,.tsx --config ./typescript/.eslintrc.json
+	@NODE_ENV=production \
+	$(eslint) . --ext .ts,.tsx \
+	--config ./typescript/.eslintrc.json
 
 lint-fix:
 	@echo "[INFO] Linting and Fixing"
-	@$(eslint) . --ext .ts,.tsx --config ./typescript/.eslintrc.json --fix
+	@NODE_ENV=development \
+	$(eslint) . --ext .ts,.tsx \
+	--config ./typescript/.eslintrc.json --fix
 
 install:
 	@echo "[INFO] Installing dev Dependencies"
@@ -51,6 +56,10 @@ clean:
 	@echo "[INFO] Cleaning release files"
 	@NODE_ENV=development $(ts_node) script/clean-app.ts
 
-publish: install tests license build
+publish: install tests lint license build
 	@echo "[INFO] Publishing package"
 	@cd app && npm publish --access=public
+
+publish-dry-run: install tests lint license build
+	@echo "[INFO] Publishing package"
+	@cd app && npm publish --access=public --dry-run
