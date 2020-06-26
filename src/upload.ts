@@ -35,8 +35,53 @@ export class FetchUpload extends FetchBase implements IFetch {
         const formData: FormData = new FormData();
 
         if (body) {
+
             const keys: string[] = Object.keys(body);
-            for (const key of keys) {
+            keysLoop: for (const key of keys) {
+
+                const value: any = body[key];
+                if (Array.isArray(value)) {
+
+                    const appendKey: string = key.endsWith('[]')
+                        ? key
+                        : `${key}[]`;
+
+                    value.forEach((each: any) => formData.append(appendKey, each));
+                    continue keysLoop;
+                }
+
+                if (value instanceof Date) {
+
+                    formData.append(key, value.toISOString());
+                    continue keysLoop;
+                }
+
+                if (typeof value === 'string'
+                    || typeof value === 'number'
+                    || typeof value === 'boolean') {
+
+                    formData.append(key, value.toString());
+                    continue keysLoop;
+                }
+
+                if (value === null) {
+
+                    formData.append(key, 'null');
+                    continue keysLoop;
+                }
+
+                if (typeof value === 'undefined') {
+
+                    formData.append(key, 'undefined');
+                    continue keysLoop;
+                }
+
+                if (typeof value === 'object') {
+
+                    formData.append(key, JSON.stringify(value));
+                    continue keysLoop;
+                }
+
                 formData.append(key, body[key]);
             }
         }
