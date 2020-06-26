@@ -35,10 +35,25 @@ export class FetchFromData extends FetchBase implements IFetch {
         const formData: FormData = new FormData();
 
         if (body) {
+
             const keys: string[] = Object.keys(body);
-            for (const key of keys) {
-                formData.append(key, body[key]);
-            }
+            keys.forEach((key: string): void => {
+
+                const value: any = body[key];
+                if (Array.isArray(value)) {
+
+                    const appendKey: string = key.endsWith('[]')
+                        ? key
+                        : `${key}[]`;
+
+                    value.forEach((each: any): void => {
+                        formData.append(appendKey, each);
+                    });
+                    return;
+                }
+
+                formData.append(key, value);
+            });
         }
 
         const response: Response = await this._fetch(this.buildUrl(), {

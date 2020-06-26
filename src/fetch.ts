@@ -9,7 +9,6 @@ import { FetchFromData } from "./form-data";
 import { GlobalFetchManager } from "./global";
 import { FetchJson } from "./json";
 import { FetchSimple } from "./simple";
-import { FetchUpload } from "./upload";
 import { parseXHeader } from "./util";
 
 export class Fetch {
@@ -122,16 +121,6 @@ export class Fetch {
     public simple(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): IFetch {
 
         return new FetchSimple(url,
-            this._method,
-            fetchFunction,
-            this._getAbortController(signal),
-            Fetch.globalHeaders,
-        );
-    }
-
-    public upload(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): IFetch {
-
-        return new FetchUpload(url,
             this._method,
             fetchFunction,
             this._getAbortController(signal),
