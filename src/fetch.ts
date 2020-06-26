@@ -4,7 +4,7 @@
  * @description Fetch
  */
 
-import { FetchFunction, IFetch, METHOD } from "./declare";
+import { FetchFunction, METHOD } from "./declare";
 import { FetchFromData } from "./form-data";
 import { GlobalFetchManager } from "./global";
 import { FetchJson } from "./json";
@@ -108,7 +108,7 @@ export class Fetch {
         }
     }
 
-    public json(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): IFetch {
+    public json(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): FetchJson {
 
         return new FetchJson(url,
             this._method,
@@ -118,7 +118,7 @@ export class Fetch {
         );
     }
 
-    public simple(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): IFetch {
+    public simple(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): FetchSimple {
 
         return new FetchSimple(url,
             this._method,
@@ -128,7 +128,7 @@ export class Fetch {
         );
     }
 
-    public formData(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): IFetch {
+    public formData(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): FetchFromData {
 
         return new FetchFromData(url,
             this._method,

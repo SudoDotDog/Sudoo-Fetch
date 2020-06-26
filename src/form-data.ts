@@ -10,6 +10,8 @@ import { parseJson } from "./util";
 
 export class FetchFromData extends FetchBase implements IFetch {
 
+    private _useFormDataKeyPolyfill: boolean;
+
     public constructor(
         url: string,
         method: METHOD,
@@ -19,12 +21,25 @@ export class FetchFromData extends FetchBase implements IFetch {
     ) {
 
         super(url, method, fetchFunction, signal, globalHeaders);
+        this._useFormDataKeyPolyfill = false;
 
         this._headers = {
 
             ...this._headers,
             'Accept': 'application/json',
         };
+    }
+
+    public enableFormDataKeyPolyfill(): this {
+
+        this._useFormDataKeyPolyfill = true;
+        return this;
+    }
+
+    public disableFormDataKeyPolyfill(): this {
+
+        this._useFormDataKeyPolyfill = false;
+        return this;
     }
 
     public async fetch<T>(): Promise<T> {
@@ -42,11 +57,9 @@ export class FetchFromData extends FetchBase implements IFetch {
                 const value: any = body[key];
                 if (Array.isArray(value)) {
 
-                    const appendKey: string = key.endsWith('[]')
-                        ? key
-                        : `${key}[]`;
-
+                    const appendKey: string = this._polyfillKey(key);
                     value.forEach((each: any): void => {
+
                         formData.append(appendKey, each);
                     });
                     return;
@@ -75,5 +88,19 @@ export class FetchFromData extends FetchBase implements IFetch {
         }
 
         throw new Error(raw);
+    }
+
+    private _polyfillKey(key: string): string {
+
+        if (this._useFormDataKeyPolyfill) {
+
+            if (key.endsWith('[]')) {
+                return key;
+            }
+
+            return `${key}[]`;
+        }
+
+        return key;
     }
 }
