@@ -75,15 +75,20 @@ export interface IFetch {
     disableFallback(): IFetch;
     setLogFunction(logFunction: (...elements: any[]) => void): IFetch;
 
+    // Header Pre Process
+    addHeaderProducePreProcessFunction<T extends Record<string, string> = any>(draftFunction: DraftFunction<T>): IFetch;
+    addHeaderProducePreProcessFunctions<T extends Record<string, string> = any>(...draftFunctions: Array<DraftFunction<T>>): IFetch;
     addHeaderPreProcessFunction<T extends Record<string, string> = any>(headerPreProcessFunction: HeaderPreProcessFunction<T>): IFetch;
     addHeaderPreProcessFunctions<T extends Record<string, string> = any>(...headerPreProcessFunctions: Array<HeaderPreProcessFunction<T>>): IFetch;
     clearHeaderPreProcessFunctions(): IFetch;
 
+    // Validation
     addVerifyValidation(pattern: Pattern): IFetch;
     addValidateFunction<T extends any = any>(validateFunction: ValidateFunction<T>): IFetch;
     addValidateFunctions<T extends any = any>(...validateFunctions: Array<ValidateFunction<T>>): IFetch;
     clearValidationFunctions(): IFetch;
 
+    // Post Process
     addProducePostProcessFunction<T extends any = any>(draftFunction: DraftFunction<T>): IFetch;
     addProducePostProcessFunctions<T extends any = any>(...draftFunctions: Array<DraftFunction<T>>): IFetch;
     addPostProcessFunction<T extends any = any>(postProcessFunction: PostProcessFunction<T>): IFetch;

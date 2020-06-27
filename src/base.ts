@@ -345,6 +345,7 @@ export abstract class FetchBase {
         return this._abortController;
     }
 
+    // Header Pre Process
     public addHeaderProducePreProcessFunction<T extends Record<string, string> = any>(draftFunction: DraftFunction<T>): this {
 
         this.addHeaderPreProcessFunction<T>((headers: T) => {
@@ -381,6 +382,7 @@ export abstract class FetchBase {
         return this;
     }
 
+    // Validation
     public addVerifyValidation(pattern: Pattern): this {
 
         const verifier: Verifier = Verifier.create(pattern);
@@ -411,6 +413,8 @@ export abstract class FetchBase {
         return this;
     }
 
+
+    // Post Process
     public addProducePostProcessFunction<T extends any = any>(draftFunction: DraftFunction<T>): this {
 
         this.addPostProcessFunction<T>((response: T) => {
@@ -447,6 +451,7 @@ export abstract class FetchBase {
         return this;
     }
 
+    // Protected And Private
     protected buildUrl(): string {
 
         if (this.hasQuery()) {
