@@ -7,7 +7,7 @@
 import { DraftFunction, produce } from "@sudoo/immutable";
 import { Pattern } from "@sudoo/pattern";
 import { Verifier, VerifyResult } from "@sudoo/verify";
-import { FetchFunction, METHOD, PostProcessFunction, ValidateFunction, PreProcessHeaderFunction } from "./declare";
+import { FetchFunction, METHOD, PostProcessFunction, PreProcessBodyFunction, PreProcessHeaderFunction, ValidateFunction } from "./declare";
 import { GlobalFetchManager } from "./global";
 import { buildQuery, parseXHeader } from "./util";
 
@@ -37,6 +37,7 @@ export abstract class FetchBase {
     protected _fallback: boolean = false;
 
     protected _preProcessHeaderFunctions: PreProcessHeaderFunction[] = [];
+    protected _preProcessBodyFunctions: PreProcessBodyFunction[] = [];
 
     protected _validateFunctions: ValidateFunction[] = [];
     protected _postProcessFunctions: PostProcessFunction[] = [];
@@ -342,6 +343,26 @@ export abstract class FetchBase {
     public getAbortController(): AbortController | undefined {
 
         return this._abortController;
+    }
+
+    public addPreProcessHeaderFunction<T extends Record<string, string> = any>(preProcessHeaderFunction: PreProcessHeaderFunction<T>): this {
+
+        this._preProcessHeaderFunctions.push(preProcessHeaderFunction);
+        return this;
+    }
+
+    public addPreProcessHeaderFunctions<T extends Record<string, string> = any>(...preProcessHeaderFunctions: Array<PreProcessHeaderFunction<T>>): this {
+
+        for (const each of preProcessHeaderFunctions) {
+            this.addPreProcessHeaderFunction(each);
+        }
+        return this;
+    }
+
+    public clearPreProcessHeaderFunctions(): this {
+
+        this._preProcessHeaderFunctions = [];
+        return this;
     }
 
     public addVerifyValidation(pattern: Pattern): this {
