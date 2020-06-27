@@ -7,7 +7,7 @@
 import { DraftFunction, produce } from "@sudoo/immutable";
 import { Pattern } from "@sudoo/pattern";
 import { Verifier, VerifyResult } from "@sudoo/verify";
-import { FetchFunction, METHOD, PostProcessFunction, ValidateFunction } from "./declare";
+import { FetchFunction, METHOD, PostProcessFunction, ValidateFunction, PreProcessHeaderFunction } from "./declare";
 import { GlobalFetchManager } from "./global";
 import { buildQuery, parseXHeader } from "./util";
 
@@ -35,6 +35,8 @@ export abstract class FetchBase {
     protected _logFunction: LogFunction | null = null;
 
     protected _fallback: boolean = false;
+
+    protected _preProcessHeaderFunctions: PreProcessHeaderFunction[] = [];
 
     protected _validateFunctions: ValidateFunction[] = [];
     protected _postProcessFunctions: PostProcessFunction[] = [];

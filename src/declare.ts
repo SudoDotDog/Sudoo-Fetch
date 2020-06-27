@@ -26,6 +26,9 @@ export enum METHOD {
     OPTION = "OPTION",
 }
 
+export type PreProcessHeaderFunction<T extends Record<string, string> = any> = (header: T) => T;
+export type PreProcessBodyFunction<T extends Record<string, any> = any> = (body: T) => T;
+
 export type PostProcessFunction<T = any> = (response: T) => T;
 export type ValidateFunction<T = any> = (response: T) => boolean;
 
