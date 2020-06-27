@@ -7,7 +7,7 @@
 import { DraftFunction, produce } from "@sudoo/immutable";
 import { Pattern } from "@sudoo/pattern";
 import { Verifier, VerifyResult } from "@sudoo/verify";
-import { FetchFunction, METHOD, PostProcessFunction, PreProcessBodyFunction, PreProcessHeaderFunction, ValidateFunction } from "./declare";
+import { FetchFunction, METHOD, PostProcessFunction, PreProcessBodyFunction, HeaderPreProcessFunction, ValidateFunction } from "./declare";
 import { GlobalFetchManager } from "./global";
 import { buildQuery, parseXHeader } from "./util";
 
@@ -36,7 +36,7 @@ export abstract class FetchBase {
 
     protected _fallback: boolean = false;
 
-    protected _preProcessHeaderFunctions: PreProcessHeaderFunction[] = [];
+    protected _headerPreProcessFunctions: HeaderPreProcessFunction[] = [];
     protected _preProcessBodyFunctions: PreProcessBodyFunction[] = [];
 
     protected _validateFunctions: ValidateFunction[] = [];
@@ -345,23 +345,39 @@ export abstract class FetchBase {
         return this._abortController;
     }
 
-    public addPreProcessHeaderFunction<T extends Record<string, string> = any>(preProcessHeaderFunction: PreProcessHeaderFunction<T>): this {
+    public addHeaderProducePreProcessFunction<T extends Record<string, string> = any>(draftFunction: DraftFunction<T>): this {
 
-        this._preProcessHeaderFunctions.push(preProcessHeaderFunction);
+        this.addHeaderPreProcessFunction<T>((headers: T) => {
+            return produce(headers, draftFunction);
+        });
         return this;
     }
 
-    public addPreProcessHeaderFunctions<T extends Record<string, string> = any>(...preProcessHeaderFunctions: Array<PreProcessHeaderFunction<T>>): this {
+    public addHeaderProducePreProcessFunctions<T extends Record<string, string> = any>(...draftFunctions: Array<DraftFunction<T>>): this {
 
-        for (const each of preProcessHeaderFunctions) {
-            this.addPreProcessHeaderFunction(each);
+        for (const each of draftFunctions) {
+            this.addHeaderProducePreProcessFunction<T>(each);
         }
         return this;
     }
 
-    public clearPreProcessHeaderFunctions(): this {
+    public addHeaderPreProcessFunction<T extends Record<string, string> = any>(headerPreProcessFunction: HeaderPreProcessFunction<T>): this {
 
-        this._preProcessHeaderFunctions = [];
+        this._headerPreProcessFunctions.push(headerPreProcessFunction);
+        return this;
+    }
+
+    public addHeaderPreProcessFunctions<T extends Record<string, string> = any>(...headerPreProcessFunctions: Array<HeaderPreProcessFunction<T>>): this {
+
+        for (const each of headerPreProcessFunctions) {
+            this.addHeaderPreProcessFunction(each);
+        }
+        return this;
+    }
+
+    public clearHeaderPreProcessFunctions(): this {
+
+        this._headerPreProcessFunctions = [];
         return this;
     }
 
@@ -397,7 +413,7 @@ export abstract class FetchBase {
 
     public addProducePostProcessFunction<T extends any = any>(draftFunction: DraftFunction<T>): this {
 
-        this.addPostProcessFunction((response: T) => {
+        this.addPostProcessFunction<T>((response: T) => {
             return produce(response, draftFunction);
         });
         return this;
@@ -406,7 +422,7 @@ export abstract class FetchBase {
     public addProducePostProcessFunctions<T extends any = any>(...draftFunctions: Array<DraftFunction<T>>): this {
 
         for (const each of draftFunctions) {
-            this.addProducePostProcessFunction(each);
+            this.addProducePostProcessFunction<T>(each);
         }
         return this;
     }

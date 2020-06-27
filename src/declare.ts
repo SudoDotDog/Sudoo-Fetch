@@ -26,7 +26,7 @@ export enum METHOD {
     OPTION = "OPTION",
 }
 
-export type PreProcessHeaderFunction<T extends Record<string, string> = any> = (header: T) => T;
+export type HeaderPreProcessFunction<T extends Record<string, string> = any> = (header: T) => T;
 export type PreProcessBodyFunction<T extends Record<string, any> = any> = (body: T) => T;
 
 export type PostProcessFunction<T = any> = (response: T) => T;
@@ -75,9 +75,9 @@ export interface IFetch {
     disableFallback(): IFetch;
     setLogFunction(logFunction: (...elements: any[]) => void): IFetch;
 
-    addPreProcessHeaderFunction<T extends Record<string, string> = any>(preProcessHeaderFunction: PreProcessHeaderFunction<T>): IFetch;
-    addPreProcessHeaderFunctions<T extends Record<string, string> = any>(...preProcessHeaderFunction: Array<PreProcessHeaderFunction<T>>): IFetch;
-    clearPreProcessHeaderFunctions(): IFetch;
+    addHeaderPreProcessFunction<T extends Record<string, string> = any>(headerPreProcessFunction: HeaderPreProcessFunction<T>): IFetch;
+    addHeaderPreProcessFunctions<T extends Record<string, string> = any>(...headerPreProcessFunctions: Array<HeaderPreProcessFunction<T>>): IFetch;
+    clearHeaderPreProcessFunctions(): IFetch;
 
     addVerifyValidation(pattern: Pattern): IFetch;
     addValidateFunction<T extends any = any>(validateFunction: ValidateFunction<T>): IFetch;
