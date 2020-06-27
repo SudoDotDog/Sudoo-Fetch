@@ -7,7 +7,7 @@
 import { DraftFunction, produce } from "@sudoo/immutable";
 import { Pattern } from "@sudoo/pattern";
 import { Verifier, VerifyResult } from "@sudoo/verify";
-import { FetchFunction, METHOD, PostProcessFunction, PreProcessBodyFunction, HeaderPreProcessFunction, ValidateFunction } from "./declare";
+import { BodyPreProcessFunction, FetchFunction, HeaderPreProcessFunction, METHOD, PostProcessFunction, ValidateFunction } from "./declare";
 import { GlobalFetchManager } from "./global";
 import { buildQuery, parseXHeader } from "./util";
 
@@ -37,7 +37,7 @@ export abstract class FetchBase {
     protected _fallback: boolean = false;
 
     protected _headerPreProcessFunctions: HeaderPreProcessFunction[] = [];
-    protected _preProcessBodyFunctions: PreProcessBodyFunction[] = [];
+    protected _bodyPreProcessFunctions: BodyPreProcessFunction[] = [];
 
     protected _validateFunctions: ValidateFunction[] = [];
     protected _postProcessFunctions: PostProcessFunction[] = [];
@@ -343,6 +343,43 @@ export abstract class FetchBase {
     public getAbortController(): AbortController | undefined {
 
         return this._abortController;
+    }
+
+    // Body Pre Process
+    public addBodyProducePreProcessFunction<T extends Record<string, any> = any>(draftFunction: DraftFunction<T>): this {
+
+        this.addBodyPreProcessFunction<T>((body: T) => {
+            return produce(body, draftFunction);
+        });
+        return this;
+    }
+
+    public addBodyProducePreProcessFunctions<T extends Record<string, any> = any>(...draftFunctions: Array<DraftFunction<T>>): this {
+
+        for (const each of draftFunctions) {
+            this.addBodyProducePreProcessFunction<T>(each);
+        }
+        return this;
+    }
+
+    public addBodyPreProcessFunction<T extends Record<string, any> = any>(bodyPreProcessFunction: BodyPreProcessFunction<T>): this {
+
+        this._bodyPreProcessFunctions.push(bodyPreProcessFunction);
+        return this;
+    }
+
+    public addBodyPreProcessFunctions<T extends Record<string, any> = any>(...bodyPreProcessFunctions: Array<BodyPreProcessFunction<T>>): this {
+
+        for (const each of bodyPreProcessFunctions) {
+            this.addBodyPreProcessFunction(each);
+        }
+        return this;
+    }
+
+    public clearBodyPreProcessFunctions(): this {
+
+        this._bodyPreProcessFunctions = [];
+        return this;
     }
 
     // Header Pre Process
