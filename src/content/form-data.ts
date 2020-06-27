@@ -4,9 +4,9 @@
  * @description Form Data
  */
 
-import { FetchBase } from "./base";
-import { FetchFunction, IFetch, METHOD } from "./declare";
-import { parseJson } from "./util";
+import { FetchBase } from "../base";
+import { FetchFunction, IFetch, METHOD } from "../declare";
+import { parseJson } from "../util";
 
 export class FetchFromData extends FetchBase implements IFetch {
 

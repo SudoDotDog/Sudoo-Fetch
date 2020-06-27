@@ -4,11 +4,11 @@
  * @description Fetch
  */
 
+import { FetchFromData } from "./content/form-data";
+import { FetchJson } from "./content/json";
+import { FetchSimple } from "./content/simple";
 import { FetchFunction, METHOD } from "./declare";
-import { FetchFromData } from "./form-data";
 import { GlobalFetchManager } from "./global";
-import { FetchJson } from "./json";
-import { FetchSimple } from "./simple";
 import { parseXHeader } from "./util";
 
 export class Fetch {
