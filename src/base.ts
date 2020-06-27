@@ -385,8 +385,8 @@ export abstract class FetchBase {
     // Header Pre Process
     public addHeaderProducePreProcessFunction<T extends Record<string, string> = any>(draftFunction: DraftFunction<T>): this {
 
-        this.addHeaderPreProcessFunction<T>((headers: T) => {
-            return produce(headers, draftFunction);
+        this.addHeaderPreProcessFunction<T>((header: T) => {
+            return produce(header, draftFunction);
         });
         return this;
     }
@@ -584,6 +584,58 @@ export abstract class FetchBase {
         const processed: T = this._postProcessFunctions.reduceRight(
             (previous: T, current: PostProcessFunction) => current(previous),
             response,
+        );
+        return processed;
+    }
+
+    protected executeHeaderPreProcessFunctions<T extends Record<string, string> = any>(header: T): T {
+
+        if (this._headerPreProcessFunctions.length === 0) {
+            return header;
+        }
+
+        const processed: T = this._headerPreProcessFunctions.reduce(
+            (previous: T, current: HeaderPreProcessFunction<T>) => current(previous),
+            header,
+        );
+        return processed;
+    }
+
+    protected reverseHeaderPreProcessFunctions<T extends Record<string, string> = any>(header: T): T {
+
+        if (this._headerPreProcessFunctions.length === 0) {
+            return header;
+        }
+
+        const processed: T = this._headerPreProcessFunctions.reduceRight(
+            (previous: T, current: HeaderPreProcessFunction<T>) => current(previous),
+            header,
+        );
+        return processed;
+    }
+
+    protected executeBodyPreProcessFunctions<T extends Record<string, any> = any>(body: T): T {
+
+        if (this._bodyPreProcessFunctions.length === 0) {
+            return body;
+        }
+
+        const processed: T = this._bodyPreProcessFunctions.reduce(
+            (previous: T, current: BodyPreProcessFunction<T>) => current(previous),
+            body,
+        );
+        return processed;
+    }
+
+    protected reverseBodyPreProcessFunctions<T extends Record<string, any> = any>(body: T): T {
+
+        if (this._bodyPreProcessFunctions.length === 0) {
+            return body;
+        }
+
+        const processed: T = this._bodyPreProcessFunctions.reduceRight(
+            (previous: T, current: BodyPreProcessFunction<T>) => current(previous),
+            body,
         );
         return processed;
     }
