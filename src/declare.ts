@@ -36,8 +36,16 @@ export type FetchFunction = (input: RequestInfo, init?: RequestInit) => Promise<
 
 export interface IFetch {
 
+    basic(token: string): IFetch;
+    bearer(token: string): IFetch;
+    digest(token: string): IFetch;
+    hoba(token: string): IFetch;
+    mutual(token: string): IFetch;
+
     setName(name: string): IFetch;
+    setMode(mode: RequestMode): IFetch;
     removeName(): IFetch;
+
     param(key: string, value: string): IFetch;
     paramIfExist(key: string, value: string | undefined | null): IFetch;
     append(query: Record<string, string>): IFetch;
@@ -47,22 +55,18 @@ export interface IFetch {
     addIfExist(key: string, value: any): IFetch;
     combine(body: Record<string, any>): IFetch;
     combineIfExist(body: Record<string, any>): IFetch;
-    basic(token: string): IFetch;
-    bearer(token: string): IFetch;
-    digest(token: string): IFetch;
-    hoba(token: string): IFetch;
-    mutual(token: string): IFetch;
+
     body(body: Record<string, any>): IFetch;
     getBody(): Record<string, any> | undefined;
-    fetch<T>(): Promise<T>;
     migrate(body: Record<string, any>): IFetch;
     migrateIfExist(body: Record<string, any>): IFetch;
     authorization(value: string): IFetch;
     header(name: string, value: string): IFetch;
     headerIfExist(name: string, value: string | undefined | null): IFetch;
-    setMode(mode: RequestMode): IFetch;
     abort(): IFetch;
     getAbortController(): AbortController | undefined;
+    fetch<T>(): Promise<T>;
+
     debug(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
     debugRequest(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
     debugResponse(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
@@ -70,10 +74,16 @@ export interface IFetch {
     enableFallback(): IFetch;
     disableFallback(): IFetch;
     setLogFunction(logFunction: (...elements: any[]) => void): IFetch;
+
+    addPreProcessHeaderFunction<T extends Record<string, string> = any>(preProcessHeaderFunction: PreProcessHeaderFunction<T>): IFetch;
+    addPreProcessHeaderFunctions<T extends Record<string, string> = any>(...preProcessHeaderFunction: Array<PreProcessHeaderFunction<T>>): IFetch;
+    clearPreProcessHeaderFunctions(): IFetch;
+
     addVerifyValidation(pattern: Pattern): IFetch;
     addValidateFunction<T extends any = any>(validateFunction: ValidateFunction<T>): IFetch;
     addValidateFunctions<T extends any = any>(...validateFunctions: Array<ValidateFunction<T>>): IFetch;
     clearValidationFunctions(): IFetch;
+
     addProducePostProcessFunction<T extends any = any>(draftFunction: DraftFunction<T>): IFetch;
     addProducePostProcessFunctions<T extends any = any>(...draftFunctions: Array<DraftFunction<T>>): IFetch;
     addPostProcessFunction<T extends any = any>(postProcessFunction: PostProcessFunction<T>): IFetch;
