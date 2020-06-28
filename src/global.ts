@@ -4,22 +4,28 @@
  * @description Global
  */
 
-import { HeaderPair } from "./declare";
+import { HeaderPair, FetchFunction } from "./declare";
 
 export class GlobalFetchManager {
+
+    private static readonly _instance = new GlobalFetchManager();
 
     public static get instance(): GlobalFetchManager {
 
         return this._instance;
     }
 
-    private static readonly _instance = new GlobalFetchManager();
-
     private _headers: HeaderPair[];
+
+    private _fetchFunction?: FetchFunction;
+    private _abortController?: typeof AbortController;
 
     private constructor() {
 
         this._headers = [];
+
+        this._fetchFunction = undefined;
+        this._abortController = undefined;
     }
 
     public get headers(): Record<string, string> {
@@ -28,6 +34,43 @@ export class GlobalFetchManager {
             ...previous,
             [value.key]: value.value,
         }), {} as Record<string, string>);
+    }
+
+    public getFetchFunction(fetchFunction?: FetchFunction): FetchFunction {
+
+        if (fetchFunction) {
+            return fetchFunction;
+        }
+
+        if (this._fetchFunction) {
+            return this._fetchFunction;
+        }
+
+        if (window.fetch) {
+            return window.fetch.bind(window);
+        }
+
+        throw new Error('[Sudoo-Fetch] Fetch function is required');
+    }
+
+    public getAbortController(signal?: AbortController): AbortController | undefined {
+
+        if (signal) {
+            return signal;
+        }
+
+        if (this._abortController) {
+
+            const ReplacedAbortController = this._abortController;
+            return new ReplacedAbortController();
+        }
+
+        if ("AbortController" in window) {
+
+            return new AbortController();
+        }
+
+        return undefined;
     }
 
     public get(key: string): string | null {

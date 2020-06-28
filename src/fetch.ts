@@ -102,59 +102,51 @@ export class Fetch {
         this._method = method;
     }
 
-    public json(url: string, fetchFunction?: FetchFunction, signal?: AbortController): FetchJson {
+    public json(
+        url: string,
+        fetchFunction?: FetchFunction,
+        signal?: AbortController,
+    ): FetchJson {
+
+        const globalFetchManager: GlobalFetchManager = GlobalFetchManager.instance;
 
         return new FetchJson(url,
             this._method,
-            this._getFetch(fetchFunction),
-            this._getAbortController(signal),
+            globalFetchManager.getFetchFunction(fetchFunction),
+            globalFetchManager.getAbortController(signal),
             Fetch.globalHeaders,
         );
     }
 
-    public simple(url: string, fetchFunction?: FetchFunction, signal?: AbortController): FetchSimple {
+    public simple(
+        url: string,
+        fetchFunction?: FetchFunction,
+        signal?: AbortController,
+    ): FetchSimple {
+
+        const globalFetchManager: GlobalFetchManager = GlobalFetchManager.instance;
 
         return new FetchSimple(url,
             this._method,
-            this._getFetch(fetchFunction),
-            this._getAbortController(signal),
+            globalFetchManager.getFetchFunction(fetchFunction),
+            globalFetchManager.getAbortController(signal),
             Fetch.globalHeaders,
         );
     }
 
-    public formData(url: string, fetchFunction?: FetchFunction, signal?: AbortController): FetchFromData {
+    public formData(
+        url: string,
+        fetchFunction?: FetchFunction,
+        signal?: AbortController,
+    ): FetchFromData {
+
+        const globalFetchManager: GlobalFetchManager = GlobalFetchManager.instance;
 
         return new FetchFromData(url,
             this._method,
-            this._getFetch(fetchFunction),
-            this._getAbortController(signal),
+            globalFetchManager.getFetchFunction(fetchFunction),
+            globalFetchManager.getAbortController(signal),
             Fetch.globalHeaders,
         );
-    }
-
-    private _getFetch(fetchFunction?: FetchFunction): FetchFunction {
-
-        if (fetchFunction) {
-            return fetchFunction;
-        }
-
-        if (window.fetch) {
-            return window.fetch.bind(window);
-        }
-
-        throw new Error('[Sudoo-Fetch] Fetch function is required');
-    }
-
-    private _getAbortController(signal?: AbortController): AbortController | undefined {
-
-        if (signal) {
-            return signal;
-        }
-
-        if ("AbortController" in window) {
-            return new AbortController();
-        }
-
-        return undefined;
     }
 }
