@@ -100,12 +100,6 @@ export class Fetch {
     private constructor(method: METHOD) {
 
         this._method = method;
-
-        if (process.env.NODE_ENV !== 'test') {
-            if (!Boolean(window)) {
-                throw new Error('[Sudoo-Fetch] This module only work with environment with fetch');
-            }
-        }
     }
 
     public json(url: string, fetchFunction?: FetchFunction, signal?: AbortController): FetchJson {
@@ -138,7 +132,7 @@ export class Fetch {
         );
     }
 
-    private _getFetch(fetchFunction?: FetchFunction): FetchFunction | undefined {
+    private _getFetch(fetchFunction?: FetchFunction): FetchFunction {
 
         if (fetchFunction) {
             return fetchFunction;
@@ -148,7 +142,7 @@ export class Fetch {
             return window.fetch.bind(window);
         }
 
-        return undefined;
+        throw new Error('[Sudoo-Fetch] Fetch function is required');
     }
 
     private _getAbortController(signal?: AbortController): AbortController | undefined {
