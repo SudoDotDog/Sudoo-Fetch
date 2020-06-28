@@ -8,6 +8,7 @@
 import { expect } from "chai";
 import * as Chance from "chance";
 import { Fetch } from "../../src";
+import { MockFetch } from "../mock/mock-fetch";
 
 describe('Given a (Query) scenario', (): void => {
 
@@ -18,25 +19,14 @@ describe('Given a (Query) scenario', (): void => {
 
         const value: string = chance.string();
         const url: string = JSON.stringify(value);
-        const result: any = {};
+        const mockFetch: MockFetch = MockFetch.create();
 
-        const mock = (input: RequestInfo, init?: RequestInit) => {
-            result.input = input;
-            result.init = init;
-
-            return Promise.resolve({
-                ok: true,
-                json: () => Promise.resolve(url),
-                text: () => Promise.resolve(url),
-            } as any);
-        };
-
-        const clazz = Fetch.get.json(url, mock);
+        const clazz = Fetch.get.json(url, mockFetch.getFetch());
 
         const res = await clazz.fetch();
 
         expect(res).to.be.equal(value);
-        expect(result.input).to.be.equal(url);
+        expect(mockFetch.url).to.be.equal(url);
     });
 
     it('should be able to fetch with query', async (): Promise<void> => {
