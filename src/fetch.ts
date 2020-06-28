@@ -108,34 +108,47 @@ export class Fetch {
         }
     }
 
-    public json(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): FetchJson {
+    public json(url: string, fetchFunction?: FetchFunction, signal?: AbortController): FetchJson {
 
         return new FetchJson(url,
             this._method,
-            fetchFunction,
+            this._getFetch(fetchFunction),
             this._getAbortController(signal),
             Fetch.globalHeaders,
         );
     }
 
-    public simple(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): FetchSimple {
+    public simple(url: string, fetchFunction?: FetchFunction, signal?: AbortController): FetchSimple {
 
         return new FetchSimple(url,
             this._method,
-            fetchFunction,
+            this._getFetch(fetchFunction),
             this._getAbortController(signal),
             Fetch.globalHeaders,
         );
     }
 
-    public formData(url: string, fetchFunction: FetchFunction = fetch.bind(window), signal?: AbortController): FetchFromData {
+    public formData(url: string, fetchFunction?: FetchFunction, signal?: AbortController): FetchFromData {
 
         return new FetchFromData(url,
             this._method,
-            fetchFunction,
+            this._getFetch(fetchFunction),
             this._getAbortController(signal),
             Fetch.globalHeaders,
         );
+    }
+
+    private _getFetch(fetchFunction?: FetchFunction): FetchFunction | undefined {
+
+        if (fetchFunction) {
+            return fetchFunction;
+        }
+
+        if (window.fetch) {
+            return window.fetch.bind(window);
+        }
+
+        return undefined;
     }
 
     private _getAbortController(signal?: AbortController): AbortController | undefined {
