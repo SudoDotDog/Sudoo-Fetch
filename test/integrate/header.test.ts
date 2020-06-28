@@ -20,9 +20,9 @@ describe('Given a (Header) scenario', (): void => {
         Fetch.removeAllGlobalHeaders();
     });
 
-    it('should be able to fetch', async (): Promise<void> => {
+    it('should be able to fetch with headers', async (): Promise<void> => {
 
-        const url: string = JSON.stringify(chance.string());
+        const url: string = chance.string();
         const mockFetch: MockFetch = MockFetch.create(exampleResponse);
 
         const clazz = Fetch.get.json(url, mockFetch.getFetch());
@@ -45,7 +45,7 @@ describe('Given a (Header) scenario', (): void => {
 
     it('should be able to set global header', async (): Promise<void> => {
 
-        const url: string = JSON.stringify(chance.string());
+        const url: string = chance.string();
         const mockFetch: MockFetch = MockFetch.create(exampleResponse);
 
         Fetch.setGlobalXHeader('key', 'value');

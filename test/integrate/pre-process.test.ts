@@ -1,56 +1,85 @@
-// /**
-//  * @author WMXPY
-//  * @namespace Fetch
-//  * @description Pre Process
-//  * @package Integrate Test
-//  */
+/**
+ * @author WMXPY
+ * @namespace Fetch
+ * @description Pre Process
+ * @package Integrate Test
+ */
 
-// import { expect } from "chai";
-// import * as Chance from "chance";
-// import { Fetch } from "../../src";
+import { expect } from "chai";
+import * as Chance from "chance";
+import { Fetch, METHOD } from "../../src";
+import { exampleResponse } from "../mock/example";
+import { MockFetch } from "../mock/mock-fetch";
 
-// describe('Given a (Header) scenario', (): void => {
+describe('Given a (Pre-Process) scenario', (): void => {
 
-//     (global.window as any) = {};
-//     const chance: Chance.Chance = new Chance('fetch-header');
+    (global.window as any) = {};
+    const chance: Chance.Chance = new Chance('fetch-pre-process');
 
-//     afterEach((): void => {
-//         Fetch.removeAllGlobalHeaders();
-//     });
+    it('should be able to produce pre process header value', async (): Promise<void> => {
 
-//     it('should be able to pre process header', async (): Promise<void> => {
+        const url: string = chance.string();
+        const mockFetch: MockFetch = MockFetch.create(exampleResponse);
 
-//         const url: string = JSON.stringify(chance.string());
-//         const result: any = {};
+        const headerKey: string = chance.string();
+        const headerValue: string = chance.string();
 
-//         const mock = (input: RequestInfo, init?: RequestInit) => {
-//             result.input = input;
-//             result.init = init;
+        const clazz = Fetch.get.json(url, mockFetch.getFetch());
+        clazz.addHeaderProducePreProcessFunction((draft) => {
+            draft[headerKey] = headerValue;
+        });
 
-//             return Promise.resolve({
-//                 ok: true,
-//                 json: () => Promise.resolve(url),
-//                 text: () => Promise.resolve(url),
-//             } as any);
-//         };
+        const res = await clazz.fetch();
 
-//         const clazz = Fetch.get.json(url, mock);
+        expect(res).to.be.deep.equal(exampleResponse);
+        expect(mockFetch.url).to.be.equal(url);
+        expect(mockFetch.init).to.be.deep.equal({
+            body: undefined,
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                [headerKey]: headerValue,
+            },
+            method: METHOD.GET,
+            mode: "cors",
+            signal: undefined,
+        });
+    });
 
-//         const res = await clazz.fetch();
+    it('should be able to produce pre process body value', async (): Promise<void> => {
 
-//         expect(res).to.be.equal(JSON.parse(url));
-//         expect(result).to.be.deep.equal({
-//             init: {
-//                 body: undefined,
-//                 headers: {
-//                     "Accept": "application/json",
-//                     "Content-Type": "application/json",
-//                 },
-//                 method: "GET",
-//                 mode: "cors",
-//                 signal: undefined,
-//             },
-//             input: url,
-//         });
-//     });
-// });
+        const url: string = chance.string();
+        const mockFetch: MockFetch = MockFetch.create(exampleResponse);
+
+        const bodyKey: string = chance.string();
+        const bodyValue: string = chance.string();
+
+        const originalKey: string = chance.string();
+        const originalValue: string = chance.string();
+
+        const clazz = Fetch.post.json(url, mockFetch.getFetch());
+
+        clazz.add(originalKey, originalValue);
+        clazz.addBodyProducePreProcessFunction((draft) => {
+            draft[bodyKey] = bodyValue;
+        });
+
+        const res = await clazz.fetch();
+
+        expect(res).to.be.deep.equal(exampleResponse);
+        expect(mockFetch.url).to.be.equal(url);
+        expect(mockFetch.init).to.be.deep.equal({
+            body: JSON.stringify({
+                [originalKey]: originalValue,
+                [bodyKey]: bodyValue,
+            }),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            method: METHOD.POST,
+            mode: "cors",
+            signal: undefined,
+        });
+    });
+});
