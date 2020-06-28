@@ -30,15 +30,18 @@ export class FetchSimple extends FetchBase implements IFetch {
     public async fetch<T>(): Promise<T> {
 
         this.logRequestMessage();
-        const body: Record<string, any> | undefined = this.getBody();
+        const headers: Record<string, string> = this.getPreProcessedHeaders();
+        const body: Record<string, any> | undefined = this.getPreProcessedBody();
 
         const response: Response = await this._fetch(this.buildUrl(), {
 
-            signal: this.getAbortSignal(),
-            method: this._method,
-            headers: this.mergeHeaders(),
             mode: this._mode,
+            method: this._method,
+
+            headers,
             body: body ? JSON.stringify(body) : undefined,
+
+            signal: this.getAbortSignal(),
         });
 
         const raw: string = await response.text();
