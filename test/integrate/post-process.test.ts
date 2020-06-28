@@ -1,7 +1,7 @@
 /**
  * @author WMXPY
  * @namespace Fetch
- * @description Pre Process
+ * @description Post Process
  * @package Integrate Test
  */
 
@@ -11,42 +11,12 @@ import { Fetch, METHOD } from "../../src";
 import { exampleResponse } from "../mock/example";
 import { MockFetch } from "../mock/mock-fetch";
 
-describe('Given a (Pre-Process) scenario', (): void => {
+describe('Given a (Post-Process) scenario', (): void => {
 
     (global.window as any) = {};
-    const chance: Chance.Chance = new Chance('fetch-pre-process');
+    const chance: Chance.Chance = new Chance('fetch-post-process');
 
-    it('should be able to produce pre process header value', async (): Promise<void> => {
-
-        const url: string = chance.string();
-        const mockFetch: MockFetch = MockFetch.create(exampleResponse);
-
-        const headerKey: string = chance.string();
-        const headerValue: string = chance.string();
-
-        const clazz = Fetch.get.json(url, mockFetch.getFetch());
-        clazz.addHeaderProducePreProcessFunction((draft) => {
-            draft[headerKey] = headerValue;
-        });
-
-        const res = await clazz.fetch();
-
-        expect(res).to.be.deep.equal(exampleResponse);
-        expect(mockFetch.url).to.be.equal(url);
-        expect(mockFetch.init).to.be.deep.equal({
-            body: undefined,
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                [headerKey]: headerValue,
-            },
-            method: METHOD.GET,
-            mode: "cors",
-            signal: undefined,
-        });
-    });
-
-    it('should be able to produce add pre process body value', async (): Promise<void> => {
+    it('should be able to add value to body body with post process produce function', async (): Promise<void> => {
 
         const url: string = chance.string();
         const mockFetch: MockFetch = MockFetch.create(exampleResponse);
@@ -54,65 +24,55 @@ describe('Given a (Pre-Process) scenario', (): void => {
         const bodyKey: string = chance.string();
         const bodyValue: string = chance.string();
 
-        const originalKey: string = chance.string();
-        const originalValue: string = chance.string();
-
-        const clazz = Fetch.post.json(url, mockFetch.getFetch());
-
-        clazz.add(originalKey, originalValue);
-        clazz.addBodyProducePreProcessFunction((draft) => {
+        const clazz = Fetch.get.json(url, mockFetch.getFetch());
+        clazz.addProducePostProcessFunction((draft) => {
             draft[bodyKey] = bodyValue;
         });
 
         const res = await clazz.fetch();
 
-        expect(res).to.be.deep.equal(exampleResponse);
+        expect(res).to.be.deep.equal({
+            ...exampleResponse,
+            [bodyKey]: bodyValue,
+        });
         expect(mockFetch.url).to.be.equal(url);
         expect(mockFetch.init).to.be.deep.equal({
-            body: JSON.stringify({
-                [originalKey]: originalValue,
-                [bodyKey]: bodyValue,
-            }),
+            body: undefined,
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
             },
-            method: METHOD.POST,
+            method: METHOD.GET,
             mode: "cors",
             signal: undefined,
         });
     });
 
-    it('should be able to produce edit pre process body value', async (): Promise<void> => {
+    it('should be able to edit value to body body with post process produce function', async (): Promise<void> => {
 
         const url: string = chance.string();
         const mockFetch: MockFetch = MockFetch.create(exampleResponse);
 
         const bodyValue: string = chance.string();
 
-        const originalKey: string = chance.string();
-        const originalValue: string = chance.string();
-
-        const clazz = Fetch.post.json(url, mockFetch.getFetch());
-
-        clazz.add(originalKey, originalValue);
-        clazz.addBodyProducePreProcessFunction((draft) => {
-            draft[originalKey] = bodyValue;
+        const clazz = Fetch.get.json(url, mockFetch.getFetch());
+        clazz.addProducePostProcessFunction((draft) => {
+            draft.foo = bodyValue;
         });
 
         const res = await clazz.fetch();
 
-        expect(res).to.be.deep.equal(exampleResponse);
+        expect(res).to.be.deep.equal({
+            foo: bodyValue,
+        });
         expect(mockFetch.url).to.be.equal(url);
         expect(mockFetch.init).to.be.deep.equal({
-            body: JSON.stringify({
-                [originalKey]: bodyValue,
-            }),
+            body: undefined,
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
             },
-            method: METHOD.POST,
+            method: METHOD.GET,
             mode: "cors",
             signal: undefined,
         });

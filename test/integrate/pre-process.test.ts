@@ -16,7 +16,7 @@ describe('Given a (Pre-Process) scenario', (): void => {
     (global.window as any) = {};
     const chance: Chance.Chance = new Chance('fetch-pre-process');
 
-    it('should be able to produce pre process header value', async (): Promise<void> => {
+    it('should be able to add value to header with pre process produce function', async (): Promise<void> => {
 
         const url: string = chance.string();
         const mockFetch: MockFetch = MockFetch.create(exampleResponse);
@@ -46,7 +46,35 @@ describe('Given a (Pre-Process) scenario', (): void => {
         });
     });
 
-    it('should be able to produce add pre process body value', async (): Promise<void> => {
+    it('should be able to edit value to header with pre process produce function', async (): Promise<void> => {
+
+        const url: string = chance.string();
+        const mockFetch: MockFetch = MockFetch.create(exampleResponse);
+
+        const headerValue: string = chance.string();
+
+        const clazz = Fetch.get.json(url, mockFetch.getFetch());
+        clazz.addHeaderProducePreProcessFunction((draft) => {
+            draft.Accept = headerValue;
+        });
+
+        const res = await clazz.fetch();
+
+        expect(res).to.be.deep.equal(exampleResponse);
+        expect(mockFetch.url).to.be.equal(url);
+        expect(mockFetch.init).to.be.deep.equal({
+            body: undefined,
+            headers: {
+                "Accept": headerValue,
+                "Content-Type": "application/json",
+            },
+            method: METHOD.GET,
+            mode: "cors",
+            signal: undefined,
+        });
+    });
+
+    it('should be able to add value to request body with pre process produce function', async (): Promise<void> => {
 
         const url: string = chance.string();
         const mockFetch: MockFetch = MockFetch.create(exampleResponse);
@@ -83,7 +111,7 @@ describe('Given a (Pre-Process) scenario', (): void => {
         });
     });
 
-    it('should be able to produce edit pre process body value', async (): Promise<void> => {
+    it('should be able to edit value to request body with pre process produce function', async (): Promise<void> => {
 
         const url: string = chance.string();
         const mockFetch: MockFetch = MockFetch.create(exampleResponse);
