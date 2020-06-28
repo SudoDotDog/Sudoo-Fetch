@@ -73,7 +73,7 @@ export class GlobalFetchManager {
         return undefined;
     }
 
-    public get(key: string): string | null {
+    public getHeader(key: string): string | null {
 
         for (const header of this._headers) {
             if (header.key === key) {
@@ -83,7 +83,7 @@ export class GlobalFetchManager {
         return null;
     }
 
-    public add(key: string, value: string): this {
+    public addHeader(key: string, value: string): this {
 
         this._headers = [...this._headers, {
             key,
@@ -92,15 +92,43 @@ export class GlobalFetchManager {
         return this;
     }
 
-    public remove(key: string): this {
+    public removeHeader(key: string): this {
 
         this._headers = this._headers.filter((value: HeaderPair) => value.key !== key);
         return this;
     }
 
-    public removeAll(): this {
+    public removeAllHeaders(): this {
 
         this._headers = [];
+        return this;
+    }
+
+    public setFetchFunction(
+        fetchFunction: FetchFunction,
+    ): this {
+
+        this._fetchFunction = fetchFunction;
+        return this;
+    }
+
+    public setAbortControllerConstructor(
+        abortController: typeof AbortController,
+    ): this {
+
+        this._abortController = abortController;
+        return this;
+    }
+
+    public clearFetchFunction(): this {
+
+        this._fetchFunction = undefined;
+        return this;
+    }
+
+    public clearAbortControllerConstructor(): this {
+
+        this._abortController = undefined;
         return this;
     }
 }

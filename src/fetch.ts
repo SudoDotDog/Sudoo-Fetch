@@ -55,43 +55,75 @@ export class Fetch {
 
     public static setGlobalHeader(name: string, value: string): typeof Fetch {
 
-        GlobalFetchManager.instance.add(name, value);
+        GlobalFetchManager.instance.addHeader(name, value);
         return Fetch;
     }
 
     public static setGlobalXHeader(name: string, value: string): typeof Fetch {
 
-        GlobalFetchManager.instance.add(parseXHeader(name), value);
+        GlobalFetchManager.instance.addHeader(parseXHeader(name), value);
         return Fetch;
     }
 
     public static getGlobalHeader(name: string): string | null {
 
-        return GlobalFetchManager.instance.get(name);
+        return GlobalFetchManager.instance.getHeader(name);
     }
 
     public static getGlobalXHeader(name: string): string | null {
 
         const header: string = parseXHeader(name);
-        return GlobalFetchManager.instance.get(header);
+        return GlobalFetchManager.instance.getHeader(header);
     }
 
     public static removeGlobalHeader(name: string): typeof Fetch {
 
-        GlobalFetchManager.instance.remove(name);
+        GlobalFetchManager.instance.removeHeader(name);
         return this;
     }
 
     public static removeGlobalXHeader(name: string): typeof Fetch {
 
         const header: string = parseXHeader(name);
-        GlobalFetchManager.instance.remove(header);
+        GlobalFetchManager.instance.removeHeader(header);
         return this;
     }
 
     public static removeAllGlobalHeaders(): typeof Fetch {
 
-        GlobalFetchManager.instance.removeAll();
+        GlobalFetchManager.instance.removeAllHeaders();
+        return this;
+    }
+
+    public static setGlobalFetchFunction(
+        fetchFunction: FetchFunction,
+    ): typeof Fetch {
+
+        GlobalFetchManager.instance.setFetchFunction(
+            fetchFunction,
+        );
+        return this;
+    }
+
+    public static setGlobalAbortControllerConstructor(
+        abortController: typeof AbortController,
+    ): typeof Fetch {
+
+        GlobalFetchManager.instance.setAbortControllerConstructor(
+            abortController,
+        );
+        return this;
+    }
+
+    public static clearGlobalFetchFunction(): typeof Fetch {
+
+        GlobalFetchManager.instance.clearFetchFunction();
+        return this;
+    }
+
+    public static clearGlobalAbortControllerConstructor(): typeof Fetch {
+
+        GlobalFetchManager.instance.clearAbortControllerConstructor();
         return this;
     }
 
