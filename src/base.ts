@@ -328,7 +328,6 @@ export abstract class FetchBase {
         if (this._isBodyFree()) {
             return undefined;
         }
-
         return this._body;
     }
 
@@ -486,6 +485,41 @@ export abstract class FetchBase {
 
         this._postProcessFunctions = [];
         return this;
+    }
+
+    // Pre Process
+    public getPreProcessedHeaders(): Record<string, string> {
+
+        const headers: Record<string, string> = this.mergeHeaders();
+
+        if (this._headerPreProcessFunctions.length === 0) {
+            return headers;
+        }
+
+        const processed: Record<string, string> = this._headerPreProcessFunctions.reduce(
+            (previous: Record<string, string>, current: HeaderPreProcessFunction) => current(previous),
+            headers,
+        );
+        return processed;
+    }
+
+    public getPreProcessedBody(): Record<string, any> | undefined {
+
+        const body: Record<string, any> | undefined = this.getBody();
+
+        if (typeof body === 'undefined') {
+            return undefined;
+        }
+
+        if (this._bodyPreProcessFunctions.length === 0) {
+            return body;
+        }
+
+        const processed: Record<string, any> = this._bodyPreProcessFunctions.reduce(
+            (previous: Record<string, any>, current: BodyPreProcessFunction) => current(previous),
+            body,
+        );
+        return processed;
     }
 
     // Protected And Private
