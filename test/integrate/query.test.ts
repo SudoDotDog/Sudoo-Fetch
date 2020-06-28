@@ -7,7 +7,7 @@
 
 import { expect } from "chai";
 import * as Chance from "chance";
-import { Fetch } from "../../src/fetch";
+import { Fetch } from "../../src";
 
 describe('Given a (Query) scenario', (): void => {
 

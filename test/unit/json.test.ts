@@ -8,9 +8,7 @@
 import { Sandbox } from "@sudoo/mock";
 import { expect } from "chai";
 import * as Chance from "chance";
-import { FetchBase } from "../../src/base";
-import { METHOD } from "../../src/declare";
-import { FetchJson } from "../../src/json";
+import { FetchBase, FetchJson, METHOD } from "../../src";
 
 describe('Given a {FetchJson} class', (): void => {
 

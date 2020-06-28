@@ -8,3 +8,6 @@ coverage
 
 # Script
 script
+
+# Mock
+test/mock
