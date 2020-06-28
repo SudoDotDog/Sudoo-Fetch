@@ -8,6 +8,7 @@
 import { expect } from "chai";
 import * as Chance from "chance";
 import { Fetch } from "../../src";
+import { exampleResponse } from "../mock/example";
 import { MockFetch } from "../mock/mock-fetch";
 
 describe('Given a (Query) scenario', (): void => {
@@ -19,55 +20,38 @@ describe('Given a (Query) scenario', (): void => {
 
         const value: string = chance.string();
         const url: string = JSON.stringify(value);
-        const mockFetch: MockFetch = MockFetch.create();
+        const mockFetch: MockFetch = MockFetch.create(exampleResponse);
 
         const clazz = Fetch.get.json(url, mockFetch.getFetch());
 
         const res = await clazz.fetch();
 
-        expect(res).to.be.equal(value);
-        expect(mockFetch.url).to.be.equal(url);
-    });
-
-    it('should be able to fetch without query with fallback', async (): Promise<void> => {
-
-        const value: string = chance.string();
-        const url: string = value;
-        const mockFetch: MockFetch = MockFetch.create();
-
-        const clazz = Fetch.get
-            .json(url, mockFetch.getFetch())
-            .enableFallback();
-
-        const res = await clazz.fetch();
-
-        expect(res).to.be.equal(value);
+        expect(res).to.be.deep.equal(exampleResponse);
         expect(mockFetch.url).to.be.equal(url);
     });
 
     it('should be able to fetch with query', async (): Promise<void> => {
 
         const url: string = chance.string();
-        const mockFetch: MockFetch = MockFetch.create();
+        const mockFetch: MockFetch = MockFetch.create(exampleResponse);
 
         const key: string = chance.string();
         const value: string = chance.string();
 
         const clazz = Fetch.get.json(url, mockFetch.getFetch());
         clazz.param(key, value);
-        clazz.enableFallback();
 
         const res = await clazz.fetch();
         const expectedURL: string = `${url}?${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
 
-        expect(res).to.be.equal(expectedURL);
+        expect(res).to.be.deep.equal(exampleResponse);
         expect(mockFetch.url).to.be.equal(expectedURL);
     });
 
     it('should be able to fetch with longer query', async (): Promise<void> => {
 
         const url: string = chance.string();
-        const mockFetch: MockFetch = MockFetch.create();
+        const mockFetch: MockFetch = MockFetch.create(exampleResponse);
 
         const key: string = chance.string();
         const value: string = chance.string();
@@ -77,7 +61,6 @@ describe('Given a (Query) scenario', (): void => {
 
         const clazz = Fetch.get.json(url, mockFetch.getFetch());
         clazz.param(key, value);
-        clazz.enableFallback();
         clazz.append({
             [key2]: value2,
         });
@@ -85,7 +68,7 @@ describe('Given a (Query) scenario', (): void => {
         const res = await clazz.fetch();
         const expectedURL: string = `${url}?${encodeURIComponent(key)}=${encodeURIComponent(value)}&${encodeURIComponent(key2)}=${encodeURIComponent(value2)}`;
 
-        expect(res).to.be.equal(expectedURL);
+        expect(res).to.be.deep.equal(exampleResponse);
         expect(mockFetch.url).to.be.equal(expectedURL);
     });
 });

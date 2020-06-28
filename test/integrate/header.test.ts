@@ -8,6 +8,8 @@
 import { expect } from "chai";
 import * as Chance from "chance";
 import { Fetch } from "../../src";
+import { exampleResponse } from "../mock/example";
+import { MockFetch } from "../mock/mock-fetch";
 
 describe('Given a (Header) scenario', (): void => {
 
@@ -21,74 +23,48 @@ describe('Given a (Header) scenario', (): void => {
     it('should be able to fetch', async (): Promise<void> => {
 
         const url: string = JSON.stringify(chance.string());
-        const result: any = {};
+        const mockFetch: MockFetch = MockFetch.create(exampleResponse);
 
-        const mock = (input: RequestInfo, init?: RequestInit) => {
-            result.input = input;
-            result.init = init;
-
-            return Promise.resolve({
-                ok: true,
-                json: () => Promise.resolve(url),
-                text: () => Promise.resolve(url),
-            } as any);
-        };
-
-        const clazz = Fetch.get.json(url, mock);
+        const clazz = Fetch.get.json(url, mockFetch.getFetch());
 
         const res = await clazz.fetch();
 
-        expect(res).to.be.equal(JSON.parse(url));
-        expect(result).to.be.deep.equal({
-            init: {
-                body: undefined,
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                },
-                method: "GET",
-                mode: "cors",
-                signal: undefined,
+        expect(res).to.be.deep.equal(exampleResponse);
+        expect(mockFetch.url).to.be.equal(url);
+        expect(mockFetch.init).to.be.deep.equal({
+            body: undefined,
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
             },
-            input: url,
+            method: "GET",
+            mode: "cors",
+            signal: undefined,
         });
     });
 
     it('should be able to set global header', async (): Promise<void> => {
 
         const url: string = JSON.stringify(chance.string());
-        const result: any = {};
-
-        const mock = (input: RequestInfo, init?: RequestInit) => {
-            result.input = input;
-            result.init = init;
-
-            return Promise.resolve({
-                ok: true,
-                json: () => Promise.resolve(url),
-                text: () => Promise.resolve(url),
-            } as any);
-        };
+        const mockFetch: MockFetch = MockFetch.create(exampleResponse);
 
         Fetch.setGlobalXHeader('key', 'value');
-        const clazz = Fetch.get.json(url, mock);
+        const clazz = Fetch.get.json(url, mockFetch.getFetch());
 
         const res = await clazz.fetch();
 
-        expect(res).to.be.equal(JSON.parse(url));
-        expect(result).to.be.deep.equal({
-            init: {
-                body: undefined,
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "x-key": "value",
-                },
-                method: "GET",
-                mode: "cors",
-                signal: undefined,
+        expect(res).to.be.deep.equal(exampleResponse);
+        expect(mockFetch.url).to.be.equal(url);
+        expect(mockFetch.init).to.be.deep.equal({
+            body: undefined,
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "x-key": "value",
             },
-            input: url,
+            method: "GET",
+            mode: "cors",
+            signal: undefined,
         });
     });
 });
