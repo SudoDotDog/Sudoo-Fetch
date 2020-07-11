@@ -65,9 +65,10 @@ export interface IFetch {
     headerIfExist(name: string, value: string | undefined | null): IFetch;
     getAbortController(): AbortController | undefined;
 
-    raw(): Promise<Response>;
-    fetch<T>(): Promise<T>;
     abort(): IFetch;
+    fetchRaw(): Promise<Response>;
+    fetchText(): Promise<string>;
+    fetchJson<T extends any = any>(): Promise<T>;
 
     debug(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
     debugRequest(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;

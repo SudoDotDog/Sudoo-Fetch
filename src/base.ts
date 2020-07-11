@@ -9,7 +9,7 @@ import { Pattern } from "@sudoo/pattern";
 import { Verifier, VerifyResult } from "@sudoo/verify";
 import { BodyPreProcessFunction, FetchFunction, HeaderPreProcessFunction, METHOD, PostProcessFunction, ValidateFunction } from "./declare";
 import { GlobalFetchManager } from "./global";
-import { buildQuery, parseXHeader } from "./util";
+import { buildQuery, parseXHeader, parseJson } from "./util";
 
 export type LogFunction = (...elements: any[]) => any;
 
@@ -520,6 +520,36 @@ export abstract class FetchBase {
             body,
         );
         return processed;
+    }
+
+    // Fetch
+    protected async processTextResponse(response: Response): Promise<string> {
+
+        this.logRequestMessage();
+
+        const raw: string = await response.text();
+
+        if (response.ok) {
+            this.logResponseMessage(raw);
+            return this.executePostProcessFunctions<string>(raw);
+        }
+        throw new Error(raw);
+    }
+
+    protected async processJsonResponse<T extends any = any>(response: Response): Promise<T> {
+
+        this.logRequestMessage();
+
+        const raw: string = await response.text();
+        const data: T = parseJson(raw, this._fallback);
+
+        if (response.ok) {
+
+            this.logResponseMessage(data);
+            return this.executePostProcessFunctions<T>(data);
+        }
+
+        throw new Error(raw);
     }
 
     // Protected And Private

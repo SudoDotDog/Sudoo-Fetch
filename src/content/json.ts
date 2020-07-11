@@ -6,7 +6,6 @@
 
 import { FetchBase } from "../base";
 import { FetchFunction, IFetch, METHOD } from "../declare";
-import { parseJson } from "../util";
 
 export class FetchJson extends FetchBase implements IFetch {
 
@@ -29,7 +28,7 @@ export class FetchJson extends FetchBase implements IFetch {
         };
     }
 
-    public async raw(): Promise<Response> {
+    public async fetchRaw(): Promise<Response> {
 
         const headers: Record<string, string> = this.getPreProcessedHeaders();
         const body: Record<string, any> | undefined = this.getPreProcessedBody();
@@ -48,20 +47,15 @@ export class FetchJson extends FetchBase implements IFetch {
         return response;
     }
 
-    public async fetch<T>(): Promise<T> {
+    public async fetchJson<T extends any = any>(): Promise<T> {
 
-        this.logRequestMessage();
-        const response: Response = await this.raw();
+        const response: Response = await this.fetchRaw();
+        return this.processJsonResponse(response);
+    }
 
-        const raw: string = await response.text();
-        const data: T = parseJson(raw, this._fallback);
+    public async fetchText(): Promise<string> {
 
-        if (response.ok) {
-
-            this.logResponseMessage(data);
-            return this.executePostProcessFunctions(data);
-        }
-
-        throw new Error(raw);
+        const response: Response = await this.fetchRaw();
+        return this.processTextResponse(response);
     }
 }
