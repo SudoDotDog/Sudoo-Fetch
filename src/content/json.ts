@@ -24,7 +24,6 @@ export class FetchJson extends FetchBase implements IFetch {
 
             ...this._headers,
 
-            'Accept': 'application/json',
             'Content-Type': 'application/json',
         };
     }

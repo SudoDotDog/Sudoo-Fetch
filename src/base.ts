@@ -554,7 +554,6 @@ export abstract class FetchBase {
             this.logResponseMessage(data);
             return this.executePostProcessFunctions<T>(data);
         }
-
         throw new Error(raw);
     }
 
