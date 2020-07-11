@@ -20,6 +20,8 @@ export class FetchFromData extends FetchBase implements IFetch {
     ) {
 
         super(url, method, fetchFunction, signal, globalHeaders);
+        this._fetchRawFunction = this.fetchRaw.bind(this);
+
         this._useFormDataKeyPolyfill = false;
 
         this._headers = {
@@ -80,18 +82,6 @@ export class FetchFromData extends FetchBase implements IFetch {
         });
 
         return response;
-    }
-
-    public async fetchJson<T extends any = any>(): Promise<T> {
-
-        const response: Response = await this.fetchRaw();
-        return this.processJsonResponse(response);
-    }
-
-    public async fetchText(): Promise<string> {
-
-        const response: Response = await this.fetchRaw();
-        return this.processTextResponse(response);
     }
 
     private _polyfillKey(key: string): string {

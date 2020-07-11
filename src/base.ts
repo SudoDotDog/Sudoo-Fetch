@@ -42,6 +42,8 @@ export abstract class FetchBase {
     protected _validateFunctions: ValidateFunction[] = [];
     protected _postProcessFunctions: PostProcessFunction[] = [];
 
+    protected _fetchRawFunction: (() => Promise<Response>) | null;
+
     protected constructor(
         url: string,
         method: METHOD,
@@ -56,6 +58,8 @@ export abstract class FetchBase {
         this._abortController = signal;
 
         this._globalHeaders = globalHeaders;
+
+        this._fetchRawFunction = null;
     }
 
     public setName(name: string): this {
@@ -523,10 +527,11 @@ export abstract class FetchBase {
     }
 
     // Fetch
-    protected async processTextResponse(response: Response): Promise<string> {
+    public async fetchText(): Promise<string> {
 
         this.logRequestMessage();
 
+        const response: Response = await this._fetchRaw();
         const raw: string = await response.text();
 
         if (response.ok) {
@@ -536,10 +541,11 @@ export abstract class FetchBase {
         throw new Error(raw);
     }
 
-    protected async processJsonResponse<T extends any = any>(response: Response): Promise<T> {
+    public async fetchJson<T extends any = any>(): Promise<T> {
 
         this.logRequestMessage();
 
+        const response: Response = await this._fetchRaw();
         const raw: string = await response.text();
         const data: T = parseJson(raw, this._fallback);
 
@@ -702,6 +708,16 @@ export abstract class FetchBase {
             body,
         );
         return processed;
+    }
+
+    private async _fetchRaw(): Promise<Response> {
+
+        if (typeof this._fetchRawFunction === 'function') {
+
+            return await this._fetchRawFunction();
+        }
+
+        throw new Error(`FetchRaw function is not defined.`);
     }
 
     private _buildRequestInfo(): Record<string, any> {

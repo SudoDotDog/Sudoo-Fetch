@@ -18,6 +18,7 @@ export class FetchJson extends FetchBase implements IFetch {
     ) {
 
         super(url, method, fetchFunction, signal, globalHeaders);
+        this._fetchRawFunction = this.fetchRaw.bind(this);
 
         this._headers = {
 
@@ -45,17 +46,5 @@ export class FetchJson extends FetchBase implements IFetch {
         });
 
         return response;
-    }
-
-    public async fetchJson<T extends any = any>(): Promise<T> {
-
-        const response: Response = await this.fetchRaw();
-        return this.processJsonResponse(response);
-    }
-
-    public async fetchText(): Promise<string> {
-
-        const response: Response = await this.fetchRaw();
-        return this.processTextResponse(response);
     }
 }
