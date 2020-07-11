@@ -22,7 +22,7 @@ describe('Given a (Query) scenario', (): void => {
         const url: string = JSON.stringify(value);
         const mockFetch: MockFetch = MockFetch.create(exampleResponse);
 
-        const clazz = Fetch.get.json(url, mockFetch.getFetch());
+        const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
 
         const res = await clazz.fetch();
 
@@ -38,7 +38,7 @@ describe('Given a (Query) scenario', (): void => {
         const key: string = chance.string();
         const value: string = chance.string();
 
-        const clazz = Fetch.get.json(url, mockFetch.getFetch());
+        const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
         clazz.param(key, value);
 
         const res = await clazz.fetch();
@@ -59,7 +59,7 @@ describe('Given a (Query) scenario', (): void => {
         const key2: string = chance.string();
         const value2: string = chance.string();
 
-        const clazz = Fetch.get.json(url, mockFetch.getFetch());
+        const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
         clazz.param(key, value);
         clazz.append({
             [key2]: value2,

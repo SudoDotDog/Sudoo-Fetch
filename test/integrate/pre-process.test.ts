@@ -24,7 +24,7 @@ describe('Given a (Pre-Process) scenario', (): void => {
         const headerKey: string = chance.string();
         const headerValue: string = chance.string();
 
-        const clazz = Fetch.get.json(url, mockFetch.getFetch());
+        const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
         clazz.addHeaderProducePreProcessFunction((draft) => {
             draft[headerKey] = headerValue;
         });
@@ -53,7 +53,7 @@ describe('Given a (Pre-Process) scenario', (): void => {
 
         const headerValue: string = chance.string();
 
-        const clazz = Fetch.get.json(url, mockFetch.getFetch());
+        const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
         clazz.addHeaderProducePreProcessFunction((draft) => {
             draft.Accept = headerValue;
         });
@@ -85,7 +85,7 @@ describe('Given a (Pre-Process) scenario', (): void => {
         const originalKey: string = chance.string();
         const originalValue: string = chance.string();
 
-        const clazz = Fetch.post.json(url, mockFetch.getFetch());
+        const clazz = Fetch.post.withJson(url, mockFetch.getFetch());
 
         clazz.add(originalKey, originalValue);
         clazz.addBodyProducePreProcessFunction((draft) => {
@@ -121,7 +121,7 @@ describe('Given a (Pre-Process) scenario', (): void => {
         const originalKey: string = chance.string();
         const originalValue: string = chance.string();
 
-        const clazz = Fetch.post.json(url, mockFetch.getFetch());
+        const clazz = Fetch.post.withJson(url, mockFetch.getFetch());
 
         clazz.add(originalKey, originalValue);
         clazz.addBodyProducePreProcessFunction((draft) => {
