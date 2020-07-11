@@ -7,9 +7,9 @@
 import { DraftFunction, produce } from "@sudoo/immutable";
 import { Pattern } from "@sudoo/pattern";
 import { Verifier, VerifyResult } from "@sudoo/verify";
-import { BodyPreProcessFunction, FetchFunction, HeaderPreProcessFunction, METHOD, PostProcessFunction, ValidateFunction } from "./declare";
+import { ACCEPT, BodyPreProcessFunction, FetchFunction, HeaderPreProcessFunction, METHOD, PostProcessFunction, ValidateFunction } from "./declare";
 import { GlobalFetchManager } from "./global";
-import { buildQuery, parseXHeader, parseJson } from "./util";
+import { buildQuery, parseJson, parseXHeader } from "./util";
 
 export type LogFunction = (...elements: any[]) => any;
 
@@ -541,11 +541,25 @@ export abstract class FetchBase {
         throw new Error(raw);
     }
 
+    public async fetchHtml(): Promise<string> {
+
+        this.logRequestMessage();
+
+        const response: Response = await this._fetchRaw(ACCEPT.HTML);
+        const raw: string = await response.text();
+
+        if (response.ok) {
+            this.logResponseMessage(raw);
+            return this.executePostProcessFunctions<string>(raw);
+        }
+        throw new Error(raw);
+    }
+
     public async fetchJson<T extends any = any>(): Promise<T> {
 
         this.logRequestMessage();
 
-        const response: Response = await this._fetchRaw('application/json');
+        const response: Response = await this._fetchRaw(ACCEPT.JSON);
         const raw: string = await response.text();
         const data: T = parseJson(raw, this._fallback);
 

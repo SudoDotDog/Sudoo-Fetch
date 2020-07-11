@@ -26,6 +26,12 @@ export enum METHOD {
     OPTION = "OPTION",
 }
 
+export enum ACCEPT {
+
+    JSON = "application/json",
+    HTML = "text/html",
+}
+
 export type HeaderPreProcessFunction<T extends Record<string, string> = any> = (header: T) => T;
 export type BodyPreProcessFunction<T extends Record<string, any> = any> = (body: T) => T;
 
@@ -69,6 +75,7 @@ export interface IFetch {
     fetchRaw(accept?: string): Promise<Response>;
 
     fetchText(): Promise<string>;
+    fetchHtml(): Promise<string>;
     fetchJson<T extends any = any>(): Promise<T>;
 
     debug(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
