@@ -51,11 +51,13 @@ describe('Given a (Pre-Process) scenario', (): void => {
         const url: string = chance.string();
         const mockFetch: MockFetch = MockFetch.create(exampleResponse);
 
+        const headerKey: string = chance.string();
         const headerValue: string = chance.string();
 
         const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
+        clazz.header(headerKey, chance.string());
         clazz.addHeaderProducePreProcessFunction((draft) => {
-            draft.Accept = headerValue;
+            draft[headerKey] = headerValue;
         });
 
         const res = await clazz.fetchJson();
@@ -65,8 +67,9 @@ describe('Given a (Pre-Process) scenario', (): void => {
         expect(mockFetch.init).to.be.deep.equal({
             body: undefined,
             headers: {
-                "Accept": headerValue,
+                "Accept": "application/json",
                 "Content-Type": "application/json",
+                [headerKey]: headerValue,
             },
             method: METHOD.GET,
             mode: "cors",
