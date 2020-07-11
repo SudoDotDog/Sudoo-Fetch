@@ -66,7 +66,8 @@ export interface IFetch {
     getAbortController(): AbortController | undefined;
 
     abort(): IFetch;
-    fetchRaw(accept: string): Promise<Response>;
+    fetchRaw(accept?: string): Promise<Response>;
+
     fetchText(): Promise<string>;
     fetchJson<T extends any = any>(): Promise<T>;
 
