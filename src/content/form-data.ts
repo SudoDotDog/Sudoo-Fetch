@@ -42,9 +42,8 @@ export class FetchFromData extends FetchBase implements IFetch {
         return this;
     }
 
-    public async fetch<T>(): Promise<T> {
+    public async raw(): Promise<Response> {
 
-        this.logRequestMessage();
         const headers: Record<string, string> = this.getPreProcessedHeaders();
         const body: Record<string, any> | undefined = this.getPreProcessedBody();
 
@@ -80,6 +79,14 @@ export class FetchFromData extends FetchBase implements IFetch {
 
             signal: this.getAbortSignal(),
         });
+
+        return response;
+    }
+
+    public async fetch<T>(): Promise<T> {
+
+        this.logRequestMessage();
+        const response: Response = await this.raw();
 
         const raw: string = await response.text();
         const data: T = parseJson(raw, this._fallback);
