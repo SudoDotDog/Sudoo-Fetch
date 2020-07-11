@@ -63,9 +63,10 @@ export interface IFetch {
     authorization(value: string): IFetch;
     header(name: string, value: string): IFetch;
     headerIfExist(name: string, value: string | undefined | null): IFetch;
-    abort(): IFetch;
     getAbortController(): AbortController | undefined;
+
     fetch<T>(): Promise<T>;
+    abort(): IFetch;
 
     debug(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
     debugRequest(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
