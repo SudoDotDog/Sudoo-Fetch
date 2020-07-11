@@ -51,19 +51,7 @@ export class FetchJson extends FetchBase implements IFetch {
     public async fetch<T>(): Promise<T> {
 
         this.logRequestMessage();
-        const headers: Record<string, string> = this.getPreProcessedHeaders();
-        const body: Record<string, any> | undefined = this.getPreProcessedBody();
-
-        const response: Response = await this._fetch(this.buildUrl(), {
-
-            mode: this._mode,
-            method: this._method,
-
-            headers,
-            body: body ? JSON.stringify(body) : undefined,
-
-            signal: this.getAbortSignal(),
-        });
+        const response: Response = await this.raw();
 
         const raw: string = await response.text();
         const data: T = parseJson(raw, this._fallback);
