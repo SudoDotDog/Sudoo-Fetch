@@ -133,7 +133,7 @@ export class Fetch {
         this._method = method;
     }
 
-    public withJson(
+    public json(
         url: string,
         fetchFunction?: FetchFunction,
         signal?: AbortController,
@@ -149,7 +149,7 @@ export class Fetch {
         );
     }
 
-    public withFormData(
+    public formData(
         url: string,
         fetchFunction?: FetchFunction,
         signal?: AbortController,
