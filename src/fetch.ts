@@ -6,7 +6,6 @@
 
 import { FetchFromData } from "./content/form-data";
 import { FetchJson } from "./content/json";
-import { FetchSimple } from "./content/simple";
 import { FetchFunction, METHOD } from "./declare";
 import { GlobalFetchManager } from "./global";
 import { parseXHeader } from "./util";
@@ -143,22 +142,6 @@ export class Fetch {
         const globalFetchManager: GlobalFetchManager = GlobalFetchManager.instance;
 
         return new FetchJson(url,
-            this._method,
-            globalFetchManager.getFetchFunction(fetchFunction),
-            globalFetchManager.getAbortController(signal),
-            Fetch.globalHeaders,
-        );
-    }
-
-    public simple(
-        url: string,
-        fetchFunction?: FetchFunction,
-        signal?: AbortController,
-    ): FetchSimple {
-
-        const globalFetchManager: GlobalFetchManager = GlobalFetchManager.instance;
-
-        return new FetchSimple(url,
             this._method,
             globalFetchManager.getFetchFunction(fetchFunction),
             globalFetchManager.getAbortController(signal),
