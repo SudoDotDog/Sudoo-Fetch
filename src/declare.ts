@@ -65,6 +65,7 @@ export interface IFetch {
     headerIfExist(name: string, value: string | undefined | null): IFetch;
     getAbortController(): AbortController | undefined;
 
+    raw(): Promise<Response>;
     fetch<T>(): Promise<T>;
     abort(): IFetch;
 
