@@ -25,7 +25,7 @@ describe('Given a (Header) scenario', (): void => {
         const url: string = chance.string();
         const mockFetch: MockFetch = MockFetch.create(exampleResponse);
 
-        const clazz = Fetch.get.json(url, mockFetch.getFetch());
+        const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
 
         const res = await clazz.fetch();
 
@@ -49,7 +49,7 @@ describe('Given a (Header) scenario', (): void => {
         const mockFetch: MockFetch = MockFetch.create(exampleResponse);
 
         Fetch.setGlobalXHeader('key', 'value');
-        const clazz = Fetch.get.json(url, mockFetch.getFetch());
+        const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
 
         const res = await clazz.fetch();
 
