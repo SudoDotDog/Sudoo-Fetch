@@ -78,10 +78,10 @@ export interface IFetch {
     setLogFunction(logFunction: (...elements: any[]) => void): IFetch;
 
     // Body Pre Process
-    addBodyProducePreProcessFunction<T extends Record<string, string> = any>(draftFunction: DraftFunction<T>): IFetch;
-    addBodyProducePreProcessFunctions<T extends Record<string, string> = any>(...draftFunctions: Array<DraftFunction<T>>): IFetch;
-    addBodyPreProcessFunction<T extends Record<string, string> = any>(bodyPreProcessFunction: BodyPreProcessFunction<T>): IFetch;
-    addBodyPreProcessFunctions<T extends Record<string, string> = any>(...bodyPreProcessFunctions: Array<BodyPreProcessFunction<T>>): IFetch;
+    addBodyProducePreProcessFunction<T extends Record<string, any> = any>(draftFunction: DraftFunction<T>): IFetch;
+    addBodyProducePreProcessFunctions<T extends Record<string, any> = any>(...draftFunctions: Array<DraftFunction<T>>): IFetch;
+    addBodyPreProcessFunction<T extends Record<string, any> = any>(bodyPreProcessFunction: BodyPreProcessFunction<T>): IFetch;
+    addBodyPreProcessFunctions<T extends Record<string, any> = any>(...bodyPreProcessFunctions: Array<BodyPreProcessFunction<T>>): IFetch;
     clearBodyPreProcessFunctions(): IFetch;
 
     // Header Pre Process
