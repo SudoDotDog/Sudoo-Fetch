@@ -24,7 +24,7 @@ describe('Given a (Query) scenario', (): void => {
 
         const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
 
-        const res = await clazz.fetch();
+        const res = await clazz.fetchJson();
 
         expect(res).to.be.deep.equal(exampleResponse);
         expect(mockFetch.url).to.be.equal(url);
@@ -41,7 +41,7 @@ describe('Given a (Query) scenario', (): void => {
         const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
         clazz.param(key, value);
 
-        const res = await clazz.fetch();
+        const res = await clazz.fetchJson();
         const expectedURL: string = `${url}?${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
 
         expect(res).to.be.deep.equal(exampleResponse);
@@ -65,7 +65,7 @@ describe('Given a (Query) scenario', (): void => {
             [key2]: value2,
         });
 
-        const res = await clazz.fetch();
+        const res = await clazz.fetchJson();
         const expectedURL: string = `${url}?${encodeURIComponent(key)}=${encodeURIComponent(value)}&${encodeURIComponent(key2)}=${encodeURIComponent(value2)}`;
 
         expect(res).to.be.deep.equal(exampleResponse);

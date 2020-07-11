@@ -27,7 +27,7 @@ describe('Given a (Header) scenario', (): void => {
 
         const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
 
-        const res = await clazz.fetch();
+        const res = await clazz.fetchJson();
 
         expect(res).to.be.deep.equal(exampleResponse);
         expect(mockFetch.url).to.be.equal(url);
@@ -51,7 +51,7 @@ describe('Given a (Header) scenario', (): void => {
         Fetch.setGlobalXHeader('key', 'value');
         const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
 
-        const res = await clazz.fetch();
+        const res = await clazz.fetchJson();
 
         expect(res).to.be.deep.equal(exampleResponse);
         expect(mockFetch.url).to.be.equal(url);

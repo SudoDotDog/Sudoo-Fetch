@@ -29,7 +29,7 @@ describe('Given a (Post-Process) scenario', (): void => {
             draft[bodyKey] = bodyValue;
         });
 
-        const res = await clazz.fetch();
+        const res = await clazz.fetchJson();
 
         expect(res).to.be.deep.equal({
             ...exampleResponse,
@@ -60,7 +60,7 @@ describe('Given a (Post-Process) scenario', (): void => {
             draft.foo = bodyValue;
         });
 
-        const res = await clazz.fetch();
+        const res = await clazz.fetchJson();
 
         expect(res).to.be.deep.equal({
             foo: bodyValue,

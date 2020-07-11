@@ -29,7 +29,7 @@ describe('Given a (Pre-Process) scenario', (): void => {
             draft[headerKey] = headerValue;
         });
 
-        const res = await clazz.fetch();
+        const res = await clazz.fetchJson();
 
         expect(res).to.be.deep.equal(exampleResponse);
         expect(mockFetch.url).to.be.equal(url);
@@ -58,7 +58,7 @@ describe('Given a (Pre-Process) scenario', (): void => {
             draft.Accept = headerValue;
         });
 
-        const res = await clazz.fetch();
+        const res = await clazz.fetchJson();
 
         expect(res).to.be.deep.equal(exampleResponse);
         expect(mockFetch.url).to.be.equal(url);
@@ -92,7 +92,7 @@ describe('Given a (Pre-Process) scenario', (): void => {
             draft[bodyKey] = bodyValue;
         });
 
-        const res = await clazz.fetch();
+        const res = await clazz.fetchJson();
 
         expect(res).to.be.deep.equal(exampleResponse);
         expect(mockFetch.url).to.be.equal(url);
@@ -128,7 +128,7 @@ describe('Given a (Pre-Process) scenario', (): void => {
             draft[originalKey] = bodyValue;
         });
 
-        const res = await clazz.fetch();
+        const res = await clazz.fetchJson();
 
         expect(res).to.be.deep.equal(exampleResponse);
         expect(mockFetch.url).to.be.equal(url);
