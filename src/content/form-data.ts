@@ -42,9 +42,9 @@ export class FetchFromData extends FetchBase implements IFetch {
         return this;
     }
 
-    public async fetchRaw(): Promise<Response> {
+    public async fetchRaw(accept?: string): Promise<Response> {
 
-        const headers: Record<string, string> = this.getPreProcessedHeaders();
+        const headers: Record<string, string> = this.getPreProcessedAcceptHeaders(accept);
         const body: Record<string, any> | undefined = this.getPreProcessedBody();
 
         const formData: FormData = new FormData();

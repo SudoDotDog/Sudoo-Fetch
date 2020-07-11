@@ -42,7 +42,7 @@ export abstract class FetchBase {
     protected _validateFunctions: ValidateFunction[] = [];
     protected _postProcessFunctions: PostProcessFunction[] = [];
 
-    protected _fetchRawFunction: (() => Promise<Response>) | null;
+    protected _fetchRawFunction: ((accept?: string) => Promise<Response>) | null;
 
     protected constructor(
         url: string,
@@ -545,7 +545,7 @@ export abstract class FetchBase {
 
         this.logRequestMessage();
 
-        const response: Response = await this._fetchRaw();
+        const response: Response = await this._fetchRaw('application/json');
         const raw: string = await response.text();
         const data: T = parseJson(raw, this._fallback);
 
@@ -565,6 +565,19 @@ export abstract class FetchBase {
             return this._url + '?' + this.buildQuery();
         }
         return this._url;
+    }
+
+    protected getPreProcessedAcceptHeaders(accept?: string): Record<string, string> {
+
+        const headers: Record<string, string> = this.getPreProcessedHeaders();
+
+        if (typeof accept === 'string') {
+            return {
+                ...headers,
+                'Accept': accept,
+            };
+        }
+        return headers;
     }
 
     protected hasQuery(): boolean {
@@ -709,11 +722,11 @@ export abstract class FetchBase {
         return processed;
     }
 
-    private async _fetchRaw(): Promise<Response> {
+    private async _fetchRaw(accept?: string): Promise<Response> {
 
         if (typeof this._fetchRawFunction === 'function') {
 
-            return await this._fetchRawFunction();
+            return await this._fetchRawFunction(accept);
         }
 
         throw new Error(`FetchRaw function is not defined.`);

@@ -28,9 +28,9 @@ export class FetchJson extends FetchBase implements IFetch {
         };
     }
 
-    public async fetchRaw(): Promise<Response> {
+    public async fetchRaw(accept?: string): Promise<Response> {
 
-        const headers: Record<string, string> = this.getPreProcessedHeaders();
+        const headers: Record<string, string> = this.getPreProcessedAcceptHeaders(accept);
         const body: Record<string, any> | undefined = this.getPreProcessedBody();
 
         const response: Response = await this._fetch(this.buildUrl(), {
