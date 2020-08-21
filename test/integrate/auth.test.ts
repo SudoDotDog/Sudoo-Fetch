@@ -33,7 +33,7 @@ describe('Given a (Auth) scenario', (): void => {
             body: undefined,
             headers: {
                 "Accept": "application/json",
-                "Authorization": "basic Hp$]uqoJ]9(BO",
+                "Authorization": `basic ${basicToken}`,
                 "Content-Type": "application/json",
             },
             method: "GET",
