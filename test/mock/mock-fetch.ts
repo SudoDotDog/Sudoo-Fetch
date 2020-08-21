@@ -38,6 +38,7 @@ export class MockFetch {
                 ok: true,
                 json: () => Promise.resolve(this.response),
                 text: () => Promise.resolve(JSON.stringify(this.response)),
+                blob: () => Promise.resolve(JSON.stringify(this.response)),
             } as any);
         };
         return mock as any as FetchFunction;

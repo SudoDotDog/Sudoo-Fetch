@@ -527,6 +527,20 @@ export abstract class FetchBase {
     }
 
     // Fetch
+    public async fetchBinary(): Promise<Blob> {
+
+        this.logRequestMessage();
+
+        const response: Response = await this._fetchRaw();
+        const raw: Blob = await response.blob();
+
+        if (response.ok) {
+            this.logResponseMessage(raw);
+            return raw;
+        }
+        throw new Error(String(raw));
+    }
+
     public async fetchText(): Promise<string> {
 
         this.logRequestMessage();
