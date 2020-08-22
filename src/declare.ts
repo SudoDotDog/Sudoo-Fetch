@@ -74,6 +74,7 @@ export interface IFetch {
     abort(): IFetch;
     fetchRaw(accept?: string): Promise<Response>;
 
+    fetchBinary(): Promise<Blob>;
     fetchText(): Promise<string>;
     fetchHtml(): Promise<string>;
     fetchJson<T extends any = any>(): Promise<T>;
