@@ -16,3 +16,7 @@ yarn add @sudoo/verify @sudoo/pattern # Peer Dependencies
 npm install @sudoo/fetch --save
 npm install @sudoo/verify @sudoo/pattern --save # Peer Dependencies
 ```
+
+## Information
+
+See [Barktler API Solution - Documents](//barktler.com) for more advanced API request package.
