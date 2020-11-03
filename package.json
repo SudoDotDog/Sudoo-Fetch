@@ -26,9 +26,9 @@
   "devDependencies": {
     "@sudoo/immutable": "^1.3.0",
     "@sudoo/io": "^1.8.0",
-    "@sudoo/mock": "^1.3.0",
-    "@sudoo/pattern": "^1.5.0",
-    "@sudoo/triforce": "^2.8.0",
+    "@sudoo/mock": "^1.5.0",
+    "@sudoo/pattern": "^1.6.1",
+    "@sudoo/triforce": "^2.9.6",
     "@sudoo/verify": "^1.16.0"
   },
   "nyc": {
