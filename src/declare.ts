@@ -28,6 +28,7 @@ export enum METHOD {
 
 export enum ACCEPT {
 
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     JSON = "application/json",
     HTML = "text/html",
 }

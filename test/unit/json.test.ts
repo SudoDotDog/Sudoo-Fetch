@@ -12,6 +12,7 @@ import { FetchBase, FetchJson, METHOD } from "../../src";
 
 describe('Given a {FetchJson} class', (): void => {
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     (global.window as any) = {};
     const chance: Chance.Chance = new Chance('fetch-json');
 

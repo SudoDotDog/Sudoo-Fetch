@@ -13,6 +13,7 @@ import { MockFetch } from "../mock/mock-fetch";
 
 describe('Given a (Header) scenario', (): void => {
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     (global.window as any) = {};
     const chance: Chance.Chance = new Chance('fetch-header');
 
