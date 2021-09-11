@@ -26,7 +26,7 @@ describe('Given a (Post-Process) scenario', (): void => {
         const bodyValue: string = chance.string();
 
         const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
-        clazz.addProducePostProcessFunction((draft) => {
+        clazz.addProducePostProcessFunction((draft: any) => {
             draft[bodyKey] = bodyValue;
         });
 
@@ -57,7 +57,7 @@ describe('Given a (Post-Process) scenario', (): void => {
         const bodyValue: string = chance.string();
 
         const clazz = Fetch.get.withJson(url, mockFetch.getFetch());
-        clazz.addProducePostProcessFunction((draft) => {
+        clazz.addProducePostProcessFunction((draft: any) => {
             draft.foo = bodyValue;
         });
 
