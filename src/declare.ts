@@ -78,7 +78,7 @@ export interface IFetch {
     fetchBinary(): Promise<Blob>;
     fetchText(): Promise<string>;
     fetchHtml(): Promise<string>;
-    fetchJson<T extends any = any>(): Promise<T>;
+    fetchJson<T = any>(): Promise<T>;
 
     debug(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
     debugRequest(environment?: string, logFunction?: (...elements: any[]) => void): IFetch;
@@ -104,14 +104,14 @@ export interface IFetch {
 
     // Validation
     addVerifyValidation(pattern: Pattern): IFetch;
-    addValidateFunction<T extends any = any>(validateFunction: ValidateFunction<T>): IFetch;
-    addValidateFunctions<T extends any = any>(...validateFunctions: Array<ValidateFunction<T>>): IFetch;
+    addValidateFunction<T = any>(validateFunction: ValidateFunction<T>): IFetch;
+    addValidateFunctions<T = any>(...validateFunctions: Array<ValidateFunction<T>>): IFetch;
     clearValidationFunctions(): IFetch;
 
     // Post Process
-    addProducePostProcessFunction<T extends any = any>(draftFunction: DraftFunction<T>): IFetch;
-    addProducePostProcessFunctions<T extends any = any>(...draftFunctions: Array<DraftFunction<T>>): IFetch;
-    addPostProcessFunction<T extends any = any>(postProcessFunction: PostProcessFunction<T>): IFetch;
-    addPostProcessFunctions<T extends any = any>(...postProcessFunctions: Array<PostProcessFunction<T>>): IFetch;
+    addProducePostProcessFunction<T = any>(draftFunction: DraftFunction<T>): IFetch;
+    addProducePostProcessFunctions<T = any>(...draftFunctions: Array<DraftFunction<T>>): IFetch;
+    addPostProcessFunction<T = any>(postProcessFunction: PostProcessFunction<T>): IFetch;
+    addPostProcessFunctions<T = any>(...postProcessFunctions: Array<PostProcessFunction<T>>): IFetch;
     clearPostProcessFunctions(): IFetch;
 }

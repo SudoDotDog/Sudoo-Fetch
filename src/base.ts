@@ -433,13 +433,13 @@ export abstract class FetchBase {
         return this;
     }
 
-    public addValidateFunction<T extends any = any>(validateFunction: ValidateFunction<T>): this {
+    public addValidateFunction<T = any>(validateFunction: ValidateFunction<T>): this {
 
         this._validateFunctions.push(validateFunction);
         return this;
     }
 
-    public addValidateFunctions<T extends any = any>(...validateFunctions: Array<ValidateFunction<T>>): this {
+    public addValidateFunctions<T = any>(...validateFunctions: Array<ValidateFunction<T>>): this {
 
         for (const each of validateFunctions) {
             this.addValidateFunction(each);
@@ -455,7 +455,7 @@ export abstract class FetchBase {
 
 
     // Post Process
-    public addProducePostProcessFunction<T extends any = any>(draftFunction: DraftFunction<T>): this {
+    public addProducePostProcessFunction<T = any>(draftFunction: DraftFunction<T>): this {
 
         this.addPostProcessFunction<T>((response: T) => {
             return produce(response, draftFunction);
@@ -463,7 +463,7 @@ export abstract class FetchBase {
         return this;
     }
 
-    public addProducePostProcessFunctions<T extends any = any>(...draftFunctions: Array<DraftFunction<T>>): this {
+    public addProducePostProcessFunctions<T = any>(...draftFunctions: Array<DraftFunction<T>>): this {
 
         for (const each of draftFunctions) {
             this.addProducePostProcessFunction<T>(each);
@@ -471,13 +471,13 @@ export abstract class FetchBase {
         return this;
     }
 
-    public addPostProcessFunction<T extends any = any>(postProcessFunction: PostProcessFunction<T>): this {
+    public addPostProcessFunction<T = any>(postProcessFunction: PostProcessFunction<T>): this {
 
         this._postProcessFunctions.push(postProcessFunction);
         return this;
     }
 
-    public addPostProcessFunctions<T extends any = any>(...postProcessFunctions: Array<PostProcessFunction<T>>): this {
+    public addPostProcessFunctions<T = any>(...postProcessFunctions: Array<PostProcessFunction<T>>): this {
 
         for (const each of postProcessFunctions) {
             this.addPostProcessFunction(each);
@@ -569,7 +569,7 @@ export abstract class FetchBase {
         throw new Error(raw);
     }
 
-    public async fetchJson<T extends any = any>(): Promise<T> {
+    public async fetchJson<T = any>(): Promise<T> {
 
         this.logRequestMessage();
 
@@ -662,7 +662,7 @@ export abstract class FetchBase {
         }
     }
 
-    protected executeValidateFunctions<T extends any = any>(response: T): boolean {
+    protected executeValidateFunctions<T = any>(response: T): boolean {
 
         if (this._validateFunctions.length === 0) {
             return true;
@@ -672,7 +672,7 @@ export abstract class FetchBase {
         return result;
     }
 
-    protected executePostProcessFunctions<T extends any = any>(response: T): T {
+    protected executePostProcessFunctions<T = any>(response: T): T {
 
         if (this._postProcessFunctions.length === 0) {
             return response;
@@ -685,7 +685,7 @@ export abstract class FetchBase {
         return processed;
     }
 
-    protected reverseExecutePostProcessFunctions<T extends any = any>(response: T): T {
+    protected reverseExecutePostProcessFunctions<T = any>(response: T): T {
 
         if (this._postProcessFunctions.length === 0) {
             return response;
