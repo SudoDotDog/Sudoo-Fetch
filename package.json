@@ -26,7 +26,7 @@
   "devDependencies": {
     "@sudoo/immutable": "^1.4.0",
     "@sudoo/mock": "^1.5.0",
-    "@sudoo/pattern": "^1.7.0",
+    "@sudoo/pattern": "^1.10.0",
     "@sudoo/triforce": "^3.5.1",
     "@sudoo/verify": "^1.17.1"
   },
